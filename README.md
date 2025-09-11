@@ -1,2 +1,1 @@
-# teapotapps.github.io
-let's brew a tea
+TeapotApps is a lightweight Node.js framework using JavaScript and ESM. It offers a modular, clean structure to build scalable backend applications and APIs easily. Designed for modern development, it leverages native ESM for better maintainability and future-proofing.
