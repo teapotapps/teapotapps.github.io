@@ -1,34 +1,102 @@
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <title>I'm a ${Teapot}</title>
-          <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕️</text></svg>">
-          <style>
-            body {
-              font-family: 'Comic Sans MS', cursive, sans-serif;
-              background-color: #f2f2f2;
-              text-align: center;
-              padding: 50px;
-              color: #555;
-            }
-            h1 {
-              font-size: 3em;
-              color: #d2691e;
-            }
-            p {
-              font-size: 1.2em;
-            }
-            .teapot {
-              margin-top: 20px;
-              font-size: 5em;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>418 I'm a ${Teapot}</h1>
-          <h1>you, let drink that tea ☕️</h1>
-          <p>Sorry, I cannot brew coffee because I'm a teapot.</p>
-          <div class="teapot">🫖</div>
-        </body>
-      </html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🫖 TeapotApps Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+      <div
+        class="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between"
+      >
+        <h1 class="text-2xl font-bold flex items-center gap-2">
+          <span class="text-3xl">☕️</span> TeapotApps Framework
+        </h1>
+        <a
+          href="https://github.com/teapotapps/project"
+          target="_blank"
+          class="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition"
+        >
+          GitHub
+        </a>
+      </div>
+    </header>
+
+    <!-- Intro -->
+    <section class="max-w-5xl mx-auto px-6 py-12 text-center">
+      <h2 class="text-3xl font-bold mb-4">
+        A lightweight Node.js framework with modern ESM support
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Build scalable backend applications and APIs with ease using a clean,
+        modular architecture.
+      </p>
+    </section>
+
+    <!-- Features -->
+    <section class="bg-white py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <h3 class="text-2xl font-semibold mb-6">✨ Features</h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+          <li>⚡ Native ESM support (modern JavaScript)</li>
+          <li>📦 Modular architecture: controllers, routes, services</li>
+          <li>⚙️ Easy setup and configuration</li>
+          <li>🛡️ Middleware support (CORS, logging, etc.)</li>
+          <li>📈 Scalable and maintainable codebase</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <h3 class="text-2xl font-semibold mb-6">📦 Installation</h3>
+        <p class="mb-4">Install the CLI globally and scaffold a new project:</p>
+        <pre
+          class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto mb-4"
+        ><code>npm install -g teapotapps
+create-teapotapps my-app</code></pre>
+        <p class="mb-4">Or use the alias:</p>
+        <pre
+          class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto"
+        ><code>teapotapps create my-app</code></pre>
+      </div>
+    </section>
+
+    <!-- Usage -->
+    <section class="bg-white py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <h3 class="text-2xl font-semibold mb-6">▶️ Usage</h3>
+        <pre
+          class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto mb-4"
+        ><code>cd my-app
+teapotapps dev</code></pre>
+        <p>
+          The development server runs at:
+          <span class="font-mono text-blue-600">http://localhost:3010</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Contributing -->
+    <section class="py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <h3 class="text-2xl font-semibold mb-6">🤝 Contributing</h3>
+        <p class="text-gray-700">
+          Contributions are welcome! Feel free to open an issue or submit a pull
+          request to improve TeapotApps.
+        </p>
+      </div>
+    </section>
+
+    <!-- License -->
+    <footer class="bg-gray-100 py-8 mt-12">
+      <div class="max-w-5xl mx-auto px-6 text-center text-gray-600">
+        📄 Licensed under the <strong>MIT License</strong>
+      </div>
+    </footer>
+  </body>
+</html>
