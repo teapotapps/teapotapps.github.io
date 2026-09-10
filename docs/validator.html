@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
+
+    <title>Request Validator | TeapotApps Documentation</title>
+    <meta name="description"
+        content="Zero-dependency functional request validation middleware for TeapotApps. Fast, type-friendly, with automatic 422 error formatting." />
+
+    <link rel="icon" type="image/png" href="../logo-teapotapps.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
+
+    <style>
+        :root {
+            --bg-canvas: #fbfaf7;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #f4f0e7;
+            --bg-surface-subtle: #eae5d9;
+            --bg-code: #161311;
+            --border-subtle: #e5dfd3;
+            --border-hover: #cbbfad;
+            --border-active: #c25e1a;
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #78716c;
+            --accent-primary: #c25e1a;
+            --accent-hover: #9a440d;
+            --accent-subtle: #fbf0e8;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-card: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(251, 250, 247, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.85rem 1.5rem;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .brand-link img { width: 28px; height: 28px; border-radius: 6px; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            background: var(--accent-subtle);
+            transition: var(--transition);
+        }
+        .back-link:hover { background: #f5e4d5; color: var(--accent-hover); }
+
+        .docs-layout {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .sidebar-title {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--bg-surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .content-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .doc-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.45rem;
+            margin: 2rem 0 0.85rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        pre {
+            background: var(--bg-code);
+            color: #f3f4f6;
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.55;
+        }
+
+        code.inline-code {
+            background: var(--bg-surface-elevated);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+        }
+
+        .note-box {
+            background: var(--accent-subtle);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 860px) {
+            .docs-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .content-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="../index.html" class="brand-link">
+                <img src="../logo-teapotapps.png" alt="TeapotApps logo" />
+                <span>TeapotApps Docs</span>
+            </a>
+            <a href="../index.html" class="back-link">
+                <i class="ri-arrow-left-line"></i>
+                <span>Back to Portal</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-title">Feature Documentation</div>
+            <ul class="sidebar-menu">
+                <li><a href="cli-brew.html"><i class="ri-cup-line"></i> CLI Generator (brew)</a></li>
+                <li><a href="validator.html" class="active"><i class="ri-shield-check-line"></i> Request Validator</a></li>
+                <li><a href="async-handler.html"><i class="ri-flashlight-line"></i> Async Error Handler</a></li>
+                <li><a href="pagination.html"><i class="ri-file-list-3-line"></i> Query Pagination</a></li>
+                <li><a href="time-handler.html"><i class="ri-time-line"></i> Time & Timezone</a></li>
+            </ul>
+        </aside>
+
+        <main class="content-card">
+            <h1>Request Validator</h1>
+            <p class="doc-lead">
+                Zero-dependency, functional validation middleware. No Joi or Zod bloat required — validate request payloads using plain JavaScript logic.
+            </p>
+
+            <h2><i class="ri-shield-check-line" style="color:var(--accent-primary)"></i> 1. Why Functional Validation?</h2>
+            <p>
+                In standard Node.js applications, validating request parameters often requires heavy npm packages or messy <code class="inline-code">if/else</code> chains in controllers. TeapotApps provides a built-in functional validator in <code class="inline-code">src/core/validator.js</code>.
+            </p>
+            <p>
+                A rule is simply a function: return <code class="inline-code">true</code> to pass, or return a <code class="inline-code">string</code> error message to reject.
+            </p>
+
+            <h2><i class="ri-code-s-slash-line" style="color:var(--accent-primary)"></i> 2. Basic Route Validation</h2>
+            <pre><code>import { Router } from 'express';
+import { validate } from '../core/validator.js';
+import * as ProductController from '../controllers/ProductController.js';
+
+const router = Router();
+
+router.post('/products', validate({
+    name: (val) => Boolean(val && val.trim()) || "Nama produk wajib diisi",
+    price: (val) => (Number(val) > 0) || "Harga harus lebih besar dari 0",
+    sku: (val) => (val && val.length >= 3) || "SKU minimal 3 karakter"
+}), ProductController.create);</code></pre>
+
+            <h2><i class="ri-error-warning-line" style="color:var(--accent-primary)"></i> 3. Standard 422 Response</h2>
+            <p>If any rule fails, execution immediately halts and returns a standardized TeapotApps error envelope:</p>
+            <pre><code>{
+  "data": null,
+  "meta": null,
+  "status": {
+    "code": 422,
+    "message_client": "Harga harus lebih besar dari 0"
+  }
+}</code></pre>
+
+            <h2><i class="ri-tools-line" style="color:var(--accent-primary)"></i> 4. Built-in Rule Helpers</h2>
+            <p>TeapotApps also exports optional rule predicates for common validations:</p>
+            <pre><code>import { validate, rules } from '../core/validator.js';
+
+router.post('/register', validate({
+    email: rules.email("Format email tidak valid"),
+    name: rules.required("Nama wajib diisi"),
+    age: rules.number("Usia harus berupa angka"),
+    password: rules.min(8, "Password minimal 8 karakter")
+}), AuthController.register);</code></pre>
+
+            <h2><i class="ri-filter-3-line" style="color:var(--accent-primary)"></i> 5. Validating Query or Params</h2>
+            <p>By default, <code class="inline-code">validate(schema)</code> checks <code class="inline-code">req.body</code>. To validate <code class="inline-code">req.query</code> or <code class="inline-code">req.params</code>, pass the target as the second argument:</p>
+            <pre><code>// Validating query parameters:
+router.get('/reports', validate({
+    year: (val) => Number(val) >= 2020 || "Tahun minimal 2020"
+}, 'query'), ReportController.getAnnualReport);</code></pre>
+
+            <div class="note-box">
+                <strong>Zero Dependency:</strong> This validator adds 0 KB to your npm footprint and executes with native JavaScript speed.
+            </div>
+        </main>
+    </div>
+</body>
+</html>

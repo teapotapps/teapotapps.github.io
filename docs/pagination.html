@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
+
+    <title>Query Pagination Engine | TeapotApps Documentation</title>
+    <meta name="description"
+        content="Production-ready database pagination helper for Sequelize models and manual Raw SQL queries with safe parameter escaping in TeapotApps." />
+
+    <link rel="icon" type="image/png" href="../logo-teapotapps.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
+
+    <style>
+        :root {
+            --bg-canvas: #fbfaf7;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #f4f0e7;
+            --bg-surface-subtle: #eae5d9;
+            --bg-code: #161311;
+            --border-subtle: #e5dfd3;
+            --border-hover: #cbbfad;
+            --border-active: #c25e1a;
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #78716c;
+            --accent-primary: #c25e1a;
+            --accent-hover: #9a440d;
+            --accent-subtle: #fbf0e8;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-card: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(251, 250, 247, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.85rem 1.5rem;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .brand-link img { width: 28px; height: 28px; border-radius: 6px; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            background: var(--accent-subtle);
+            transition: var(--transition);
+        }
+        .back-link:hover { background: #f5e4d5; color: var(--accent-hover); }
+
+        .docs-layout {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .sidebar-title {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--bg-surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .content-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .doc-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.45rem;
+            margin: 2rem 0 0.85rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        pre {
+            background: var(--bg-code);
+            color: #f3f4f6;
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.55;
+        }
+
+        code.inline-code {
+            background: var(--bg-surface-elevated);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+        }
+
+        .note-box {
+            background: var(--accent-subtle);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 860px) {
+            .docs-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .content-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="../index.html" class="brand-link">
+                <img src="../logo-teapotapps.png" alt="TeapotApps logo" />
+                <span>TeapotApps Docs</span>
+            </a>
+            <a href="../index.html" class="back-link">
+                <i class="ri-arrow-left-line"></i>
+                <span>Back to Portal</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-title">Feature Documentation</div>
+            <ul class="sidebar-menu">
+                <li><a href="cli-brew.html"><i class="ri-cup-line"></i> CLI Generator (brew)</a></li>
+                <li><a href="validator.html"><i class="ri-shield-check-line"></i> Request Validator</a></li>
+                <li><a href="async-handler.html"><i class="ri-flashlight-line"></i> Async Error Handler</a></li>
+                <li><a href="pagination.html" class="active"><i class="ri-file-list-3-line"></i> Query Pagination</a></li>
+                <li><a href="time-handler.html"><i class="ri-time-line"></i> Time & Timezone</a></li>
+            </ul>
+        </aside>
+
+        <main class="content-card">
+            <h1>Query Pagination Engine</h1>
+            <p class="doc-lead">
+                Built-in pagination engine supporting both ORM model queries and manual Raw SQL queries with automated parameter escaping and metadata calculation.
+            </p>
+
+            <h2><i class="ri-table-line" style="color:var(--accent-primary)"></i> 1. Overview</h2>
+            <p>
+                Pagination in TeapotApps lives in <code class="inline-code">src/libs/pagination.js</code>. It automatically reads <code class="inline-code">req.query.page</code> and <code class="inline-code">req.query.limit</code>, calculates offsets, executes count queries, and formats metadata ready for <code class="inline-code">responseApi</code>.
+            </p>
+
+            <h2><i class="ri-database-line" style="color:var(--accent-primary)"></i> 2. Model-Based Pagination</h2>
+            <p>Use <code class="inline-code">paginate(model, req.query, options)</code> for standard Sequelize model queries:</p>
+            <pre><code>import { paginate } from '../libs/pagination.js';
+import { responseApi } from '../libs/RestApiHandler.js';
+import ProductModels from '../models/ProductModels.js';
+
+export const getAll = async (req, res) => {
+    const result = await paginate(ProductModels, req.query, {
+        where: { status: 1 },
+        order: [['id', 'DESC']]
+    });
+
+    return responseApi(res, result.data, result.meta, "Products retrieved");
+};</code></pre>
+
+            <h2><i class="ri-terminal-line" style="color:var(--accent-primary)"></i> 3. Manual Raw SQL Pagination</h2>
+            <p>For complex queries involving table JOINs or aggregations, use <code class="inline-code">paginateQuery</code>:</p>
+            <pre><code>import { paginateQuery } from '../libs/pagination.js';
+import { responseApi } from '../libs/RestApiHandler.js';
+
+export const getSalesReport = async (req, res) => {
+    const rawSql = `
+        SELECT o.id, o.invoice_no, u.name as customer_name, o.total_amount
+        FROM orders o
+        JOIN users u ON o.user_id = u.id
+        WHERE o.status = :status AND o.created_at >= :startEpoch
+        ORDER BY o.id DESC
+    `;
+
+    const result = await paginateQuery(rawSql, req.query, {
+        replacements: {
+            status: 'PAID',
+            startEpoch: 1700000000
+        }
+    });
+
+    return responseApi(res, result.data, result.meta, "Orders retrieved");
+};</code></pre>
+
+            <h2><i class="ri-shield-keyhole-line" style="color:var(--accent-primary)"></i> 4. Parameter Escaping & Flexibility</h2>
+            <p>
+                <strong>Automatic Escaping:</strong> All parameters passed through <code class="inline-code">replacements: { ... }</code> are strictly sanitized and bound by the database driver, preventing SQL injection vulnerabilities.
+            </p>
+            <p>
+                <strong>Dynamic Raw Fragments:</strong> If your query requires dynamic column ordering or unescaped clauses, interpolate strings into your base query before passing it to <code class="inline-code">paginateQuery</code>:
+            </p>
+            <pre><code>const allowedSortColumns = ['id', 'price', 'created_at'];
+const sortBy = allowedSortColumns.includes(req.query.sort) ? req.query.sort : 'id';
+
+const sql = `SELECT * FROM products WHERE status = :status ORDER BY ${sortBy} DESC`;
+const result = await paginateQuery(sql, req.query, { replacements: { status: 1 } });</code></pre>
+
+            <h2><i class="ri-brackets-line" style="color:var(--accent-primary)"></i> 5. Standard Output Envelope</h2>
+            <p>The client receives a complete pagination summary inside the <code class="inline-code">meta</code> field:</p>
+            <pre><code>{
+  "data": [ ... ],
+  "meta": {
+    "page": 2,
+    "limit": 10,
+    "total_data": 48,
+    "total_pages": 5,
+    "has_next": true,
+    "has_prev": true
+  },
+  "status": {
+    "code": 0,
+    "message_client": "Products retrieved"
+  }
+}</code></pre>
+
+            <div class="note-box">
+                <strong>Safety Cap:</strong> <code class="inline-code">limit</code> is automatically capped between 1 and 100 to protect your database against runaway memory allocation.
+            </div>
+        </main>
+    </div>
+</body>
+</html>

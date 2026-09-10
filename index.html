@@ -1062,6 +1062,7 @@
                 <a href="#architecture" class="nav-link">Architecture</a>
                 <a href="#recipes" class="nav-link">Code Recipes</a>
                 <a href="#workbench" class="nav-link">API Workbench</a>
+                <a href="#docs" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Feature Docs</a>
             </nav>
 
             <!-- Header Actions -->
@@ -1094,6 +1095,7 @@
                 <a href="#architecture" class="mobile-drawer-link" onclick="closeMobileMenu()">Architecture</a>
                 <a href="#recipes" class="mobile-drawer-link" onclick="closeMobileMenu()">Code Recipes</a>
                 <a href="#workbench" class="mobile-drawer-link" onclick="closeMobileMenu()">API Workbench</a>
+                <a href="#docs" class="mobile-drawer-link" onclick="closeMobileMenu()">Feature Docs</a>
             </nav>
         </div>
     </header>
@@ -1414,6 +1416,56 @@
                         <p class="step-desc">Your modular backend will be live on port 3010, ready for custom route groups and controllers.</p>
                         <code class="step-code-inline">http://localhost:3010/api/wellcome</code>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Documentation Portal Section -->
+        <section class="section-wrap" id="docs">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Feature Guides</div>
+                    <h2 class="section-title">Deep Dive Feature Documentation</h2>
+                    <p class="section-subtitle">
+                        Explore dedicated technical guides and recipes for all TeapotApps CLI tools, validation helpers, and production libraries.
+                    </p>
+                </div>
+
+                <div class="steps-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                    <a href="./docs/cli-brew.html" class="step-card" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
+                        <div class="step-num"><i class="ri-cup-line" style="color: var(--accent-primary);"></i></div>
+                        <h3 class="step-title">CLI Generator (brew)</h3>
+                        <p class="step-desc">Scaffold controllers, models, middlewares, and unified API routes in one terminal command.</p>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
+                    </a>
+
+                    <a href="./docs/validator.html" class="step-card" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
+                        <div class="step-num"><i class="ri-shield-check-line" style="color: var(--accent-primary);"></i></div>
+                        <h3 class="step-title">Request Validator</h3>
+                        <p class="step-desc">Zero-dependency functional request validation middleware with automated 422 error envelopes.</p>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
+                    </a>
+
+                    <a href="./docs/async-handler.html" class="step-card" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
+                        <div class="step-num"><i class="ri-flashlight-line" style="color: var(--accent-primary);"></i></div>
+                        <h3 class="step-title">Async Error Handler</h3>
+                        <p class="step-desc">Eliminate try/catch boilerplate and prevent unhandled promise rejections from hanging your server.</p>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
+                    </a>
+
+                    <a href="./docs/pagination.html" class="step-card" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
+                        <div class="step-num"><i class="ri-file-list-3-line" style="color: var(--accent-primary);"></i></div>
+                        <h3 class="step-title">Query Pagination</h3>
+                        <p class="step-desc">Automated offset calculation and parameter escaping for Sequelize models and Raw SQL queries.</p>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
+                    </a>
+
+                    <a href="./docs/time-handler.html" class="step-card" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
+                        <div class="step-num"><i class="ri-time-line" style="color: var(--accent-primary);"></i></div>
+                        <h3 class="step-title">Time & Timezone</h3>
+                        <p class="step-desc">Timezone-aware datetime formatting and epoch utilities with in-file default configuration.</p>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
+                    </a>
                 </div>
             </div>
         </section>

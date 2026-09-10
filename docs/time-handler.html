@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
+
+    <title>Time & Timezone Utilities | TeapotApps Documentation</title>
+    <meta name="description"
+        content="Zero-dependency timezone-aware date and epoch utilities for TeapotApps. Clean, fast, with configurable in-file timezone defaults." />
+
+    <link rel="icon" type="image/png" href="../logo-teapotapps.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
+
+    <style>
+        :root {
+            --bg-canvas: #fbfaf7;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #f4f0e7;
+            --bg-surface-subtle: #eae5d9;
+            --bg-code: #161311;
+            --border-subtle: #e5dfd3;
+            --border-hover: #cbbfad;
+            --border-active: #c25e1a;
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #78716c;
+            --accent-primary: #c25e1a;
+            --accent-hover: #9a440d;
+            --accent-subtle: #fbf0e8;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-card: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(251, 250, 247, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.85rem 1.5rem;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .brand-link img { width: 28px; height: 28px; border-radius: 6px; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            background: var(--accent-subtle);
+            transition: var(--transition);
+        }
+        .back-link:hover { background: #f5e4d5; color: var(--accent-hover); }
+
+        .docs-layout {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .sidebar-title {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--bg-surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .content-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .doc-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.45rem;
+            margin: 2rem 0 0.85rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        pre {
+            background: var(--bg-code);
+            color: #f3f4f6;
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.55;
+        }
+
+        code.inline-code {
+            background: var(--bg-surface-elevated);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+        }
+
+        .note-box {
+            background: var(--accent-subtle);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 860px) {
+            .docs-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .content-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="../index.html" class="brand-link">
+                <img src="../logo-teapotapps.png" alt="TeapotApps logo" />
+                <span>TeapotApps Docs</span>
+            </a>
+            <a href="../index.html" class="back-link">
+                <i class="ri-arrow-left-line"></i>
+                <span>Back to Portal</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-title">Feature Documentation</div>
+            <ul class="sidebar-menu">
+                <li><a href="cli-brew.html"><i class="ri-cup-line"></i> CLI Generator (brew)</a></li>
+                <li><a href="validator.html"><i class="ri-shield-check-line"></i> Request Validator</a></li>
+                <li><a href="async-handler.html"><i class="ri-flashlight-line"></i> Async Error Handler</a></li>
+                <li><a href="pagination.html"><i class="ri-file-list-3-line"></i> Query Pagination</a></li>
+                <li><a href="time-handler.html" class="active"><i class="ri-time-line"></i> Time & Timezone</a></li>
+            </ul>
+        </aside>
+
+        <main class="content-card">
+            <h1>Time & Timezone Utilities</h1>
+            <p class="doc-lead">
+                Zero-dependency date, epoch, and timezone formatting utilities for TeapotApps. Clean in-file configuration with no heavy Moment or Dayjs libraries.
+            </p>
+
+            <h2><i class="ri-settings-3-line" style="color:var(--accent-primary)"></i> 1. In-File Timezone Configuration</h2>
+            <p>
+                To keep your <code class="inline-code">.env</code> file minimal and unbloated, the default timezone is declared right at the top of <code class="inline-code">src/libs/TimeHandler.js</code>:
+            </p>
+            <pre><code>// src/libs/TimeHandler.js
+export const DEFAULT_TIMEZONE = 'Asia/Jakarta';</code></pre>
+            <p>
+                You can change this constant to any standard IANA timezone (e.g. <code class="inline-code">'UTC'</code>, <code class="inline-code">'Asia/Tokyo'</code>, <code class="inline-code">'America/New_York'</code>).
+            </p>
+
+            <h2><i class="ri-history-line" style="color:var(--accent-primary)"></i> 2. Getting Epoch Timestamps</h2>
+            <p>Perfect for database timestamps, token expiration checks, or cache expiry keys:</p>
+            <pre><code>import { TimeHandler } from '../libs/TimeHandler.js';
+
+// Unix timestamp in seconds (standard epoch):
+const epochSeconds = TimeHandler.now(); // e.g. 1789035456
+
+// Unix timestamp in milliseconds:
+const epochMs = TimeHandler.nowMs(); // e.g. 1789035456123
+
+// Convert existing Date or ISO string to epoch seconds:
+const userCreatedAt = TimeHandler.toEpoch(user.created_at);</code></pre>
+
+            <h2><i class="ri-calendar-event-line" style="color:var(--accent-primary)"></i> 3. Formatting Date Strings</h2>
+            <p>Formats any date into a clean <code class="inline-code">YYYY-MM-DD HH:mm:ss</code> string:</p>
+            <pre><code>// Uses default in-file timezone (Asia/Jakarta):
+const formatted = TimeHandler.format(new Date()); 
+// Output: '2026-09-10 17:15:30'
+
+// Override timezone on-the-fly:
+const utcString = TimeHandler.format(new Date(), 'UTC');
+const tokyoString = TimeHandler.format(new Date(), 'Asia/Tokyo');</code></pre>
+
+            <h2><i class="ri-calendar-todo-line" style="color:var(--accent-primary)"></i> 4. Daily Boundaries (Start & End of Day)</h2>
+            <p>Crucial for transactional filtering, daily ledger summaries, or sales reports:</p>
+            <pre><code>// Date only string (YYYY-MM-DD):
+const today = TimeHandler.toDateString(); // '2026-09-10'
+
+// Start of Day (00:00:00):
+const start = TimeHandler.startOfDay(); // '2026-09-10 00:00:00'
+
+// End of Day (23:59:59):
+const end = TimeHandler.endOfDay(); // '2026-09-10 23:59:59'</code></pre>
+
+            <div class="note-box">
+                <strong>Zero-Dependency:</strong> Built using native <code class="inline-code">Intl.DateTimeFormat</code> engines built into V8, delivering optimal execution speed without memory bloat.
+            </div>
+        </main>
+    </div>
+</body>
+</html>
