@@ -4,1328 +4,1705 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
+
     <!-- SEO Meta Tags -->
-    <title>🫖 TeapotApps | Native ESM Lightweight Node.js Framework</title>
+    <title>TeapotApps | Native ESM Lightweight Node.js Framework</title>
     <meta name="description"
         content="A lightweight Node.js backend framework with native ESM support, clean modular architecture, and cozy 418 Teapot handling. Slowly steeped, quickly served." />
+    <meta name="author" content="TeapotApps" />
+    <link rel="canonical" href="https://teapotapps.github.io/" />
+
+    <!-- Open Graph Meta Tags (LinkedIn, Threads, Facebook, WhatsApp) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://teapotapps.github.io/" />
+    <meta property="og:site_name" content="TeapotApps Framework" />
+    <meta property="og:title" content="TeapotApps | Native ESM Lightweight Node.js Framework" />
+    <meta property="og:description"
+        content="A lightweight Node.js backend framework with native ESM support, clean modular architecture, and cozy 418 Teapot handling. Slowly steeped, quickly served." />
+    <meta property="og:image" content="https://teapotapps.github.io/logo-teapotapps.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="TeapotApps Framework Logo" />
+
+    <!-- Twitter / X Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://teapotapps.github.io/" />
+    <meta name="twitter:title" content="TeapotApps | Native ESM Lightweight Node.js Framework" />
+    <meta name="twitter:description"
+        content="A lightweight Node.js backend framework with native ESM support, clean modular architecture, and cozy 418 Teapot handling. Slowly steeped, quickly served." />
+    <meta name="twitter:image" content="https://teapotapps.github.io/logo-teapotapps.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./logo-teapotapps.png" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
-    <!-- RemixIcon -->
+    <!-- RemixIcon for minimal functional UI symbols -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
 
-    <!-- Tailwind CSS v4 Play CDN -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
-    <!-- GSAP for Premium Animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-    <style type="text/css">
-        @import "tailwindcss";
-
-        @theme {
-            --color-brand-bg-primary: #060504;
-            --color-brand-bg-secondary: #0e0b09;
-            --color-brand-bg-tertiary: #161210;
-
-            --color-brand-accent-primary: #d2691e;
-            --color-brand-accent-primary-rgb: 210, 105, 30;
-            --color-brand-accent-secondary: #e6a756;
-            --color-brand-accent-secondary-rgb: 230, 167, 86;
-
-            --color-brand-text-primary: #f5efe6;
-            --color-brand-text-secondary: #c9b8ac;
-            --color-brand-text-muted: #9e8d82;
-
-            --color-brand-border: rgba(230, 167, 86, 0.1);
-            --color-brand-border-hover: rgba(230, 167, 86, 0.25);
-
-            --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
-            --font-title: 'Outfit', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-
-        /* global base background */
-        html,
-        body {
-            background-color: #070504;
-            color: #f5efe6;
-        }
-
+    <!-- Warm Editorial Ceramic CSS Design System -->
+    <style>
         /* ============================================================
-           BRAND COLOR UTILITY FALLBACKS
-           Tailwind v4 Browser CDN may fail to resolve @theme custom
-           color tokens into utility classes. These hardcoded rules
-           guarantee all text and backgrounds are always visible.
+           01. DESIGN TOKENS & RESET (Warm Editorial Ceramic)
            ============================================================ */
+        :root {
+            --bg-canvas: #fbfaf7;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #f4f0e7;
+            --bg-surface-subtle: #eae5d9;
+            --bg-code: #161311;
 
-        /* Text colors */
-        .text-brand-text-primary {
-            color: #f5efe6 !important;
+            --border-subtle: #e5dfd3;
+            --border-hover: #cbbfad;
+            --border-active: #c25e1a;
+
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #78716c;
+
+            --accent-primary: #c25e1a;
+            --accent-hover: #9a440d;
+            --accent-subtle: #fbf0e8;
+            --accent-gold: #b45309;
+
+            --accent-success: #15803d;
+            --accent-success-bg: #f0fdf4;
+            --accent-success-border: #bbf7d0;
+
+            --accent-warning: #b45309;
+            --accent-warning-bg: #fffbeb;
+            --accent-warning-border: #fde68a;
+
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.05);
+            --shadow-card: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+            --shadow-elevated: 0 8px 24px rgba(28, 25, 23, 0.08);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .text-brand-text-secondary {
-            color: #c9b8ac !important;
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .text-brand-text-muted {
-            color: #9e8d82 !important;
+        html {
+            scroll-behavior: smooth;
+            color-scheme: light;
         }
 
-        .text-brand-accent-primary {
-            color: #d2691e !important;
-        }
-
-        .text-brand-accent-secondary {
-            color: #e6a756 !important;
-        }
-
-        /* Background colors */
-        .bg-brand-bg-primary {
-            background-color: #060504 !important;
-        }
-
-        .bg-brand-bg-secondary {
-            background-color: #0e0b09 !important;
-        }
-
-        .bg-brand-bg-tertiary {
-            background-color: #161210 !important;
-        }
-
-        /* Hover text colors (native CSS :hover override) */
-        .hover\:text-brand-text-primary:hover {
-            color: #f5efe6 !important;
-        }
-
-        .hover\:text-brand-text-secondary:hover {
-            color: #c9b8ac !important;
-        }
-
-        .hover\:text-brand-accent-secondary:hover {
-            color: #e6a756 !important;
-        }
-
-        /* Partial opacity brand text utilities */
-        .text-brand-text-muted\/60 {
-            color: rgba(158, 141, 130, 0.6) !important;
-        }
-
-        .text-brand-text-muted\/40 {
-            color: rgba(158, 141, 130, 0.4) !important;
-        }
-
-        .text-brand-accent-secondary\/80 {
-            color: rgba(230, 167, 86, 0.8) !important;
-        }
-
-        /* Border colors */
-        .border-brand-border {
-            border-color: rgba(230, 167, 86, 0.1) !important;
-        }
-
-        .border-brand-border-hover {
-            border-color: rgba(230, 167, 86, 0.25) !important;
-        }
-
-        .border-brand-accent-secondary {
-            border-color: #e6a756 !important;
-        }
-
-        /* custom scrollbar & base enhancements */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #070504;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(230, 167, 86, 0.1);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #e6a756;
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         ::selection {
-            background: rgba(210, 105, 30, 0.3);
-            color: #f5efe6;
+            background-color: #fed7aa;
+            color: #7c2d12;
         }
 
-        /* Floating steam bubble element */
-        .steam-bubble {
-            position: absolute;
-            background: radial-gradient(circle, rgba(230, 167, 86, 0.4) 0%, rgba(210, 105, 30, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            z-index: 10;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        /* Console log animations */
-        .log-line {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: transparent;
         }
 
-        /* Custom syntax highlighters inside code blocks */
-        .token.keyword {
-            color: #f28482;
-            font-weight: 500;
+        :focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 3px;
         }
 
-        .token.function {
-            color: #84a59d;
-        }
-
-        .token.string {
-            color: #f7ede2;
-        }
-
-        .token.comment {
-            color: #5c4d42;
-            font-style: italic;
-        }
-
-        .token.operator {
-            color: #e6a756;
-        }
-
-        .token.number {
-            color: #f5cac3;
-        }
-
-        .token.className {
-            color: #f6bd60;
-        }
-
-        .token.tag {
-            color: #e76f51;
-        }
-
-        .code-block {
-            white-space: pre;
+        .container {
+            width: 100%;
+            max-width: 1160px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
         }
 
         /* ============================================================
-           RESPONSIVE UTILITIES
+           02. HEADER & NAVIGATION
            ============================================================ */
-
-        /* Mobile menu drawer */
-        #mobile-menu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-            opacity: 0;
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(251, 250, 247, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition);
         }
 
-        #mobile-menu.open {
-            max-height: 360px;
-            opacity: 1;
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
         }
 
-        /* Hamburger icon animation */
-        #hamburger-icon.open .bar-1 {
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            transition: var(--transition);
+        }
+
+        .brand-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .brand-logo-img {
+            height: 30px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .desktop-nav {
+            display: none;
+            align-items: center;
+            gap: 1.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-nav {
+                display: flex;
+            }
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            padding: 4px 0;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-header-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 15px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .btn-header-action:hover {
+            border-color: var(--border-hover);
+            color: var(--accent-primary);
+            background-color: var(--bg-surface-elevated);
+        }
+
+        .mobile-toggle-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            background-color: var(--bg-surface);
+        }
+
+        @media (min-width: 768px) {
+            .mobile-toggle-btn {
+                display: none;
+            }
+        }
+
+        .hamburger-bar {
+            width: 18px;
+            height: 2px;
+            background-color: var(--text-secondary);
+            border-radius: 1px;
+            transition: var(--transition);
+        }
+
+        .mobile-toggle-btn[aria-expanded="true"] .hamburger-bar:nth-child(1) {
             transform: translateY(7px) rotate(45deg);
         }
-
-        #hamburger-icon.open .bar-2 {
+        .mobile-toggle-btn[aria-expanded="true"] .hamburger-bar:nth-child(2) {
             opacity: 0;
-            transform: scaleX(0);
         }
-
-        #hamburger-icon.open .bar-3 {
+        .mobile-toggle-btn[aria-expanded="true"] .hamburger-bar:nth-child(3) {
             transform: translateY(-7px) rotate(-45deg);
         }
 
-        #hamburger-icon .bar-1,
-        #hamburger-icon .bar-2,
-        #hamburger-icon .bar-3 {
+        /* Mobile Drawer */
+        .mobile-drawer {
+            display: none;
+            border-top: 1px solid var(--border-subtle);
+            background-color: var(--bg-surface);
+            padding: 1.25rem;
+        }
+
+        .mobile-drawer.is-open {
             display: block;
-            width: 22px;
-            height: 2px;
-            background: #c9b8ac;
-            border-radius: 2px;
-            transition: all 0.25s ease;
-            transform-origin: center;
         }
 
-        /* Prevent iOS scroll bounce when menu is open */
-        body.menu-open {
+        .mobile-drawer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .mobile-drawer-link {
+            display: block;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .mobile-drawer-link:hover {
+            background-color: var(--bg-surface-elevated);
+            color: var(--accent-primary);
+        }
+
+        /* ============================================================
+           03. HERO & QUICKSTART
+           ============================================================ */
+        .hero-section {
+            padding: 4.5rem 0 3.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        @media (min-width: 992px) {
+            .hero-section {
+                padding: 6rem 0 5rem;
+            }
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1.2fr 0.8fr;
+                gap: 3.5rem;
+            }
+        }
+
+        .hero-meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background-color: var(--accent-subtle);
+            border: 1px solid #f2cfbb;
+            border-radius: var(--radius-full);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .hero-title {
+                font-size: 3.25rem;
+            }
+        }
+
+        .hero-lead {
+            font-size: 1.1rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 620px;
+        }
+
+        /* CLI Terminal Command Box */
+        .cli-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            max-width: 540px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 1.5rem;
+        }
+
+        .cli-code {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .cli-prompt {
+            color: var(--accent-primary);
+            font-weight: 700;
+            user-select: none;
+        }
+
+        .btn-copy {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background-color: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .btn-copy:hover {
+            border-color: var(--border-hover);
+            color: var(--accent-primary);
+            background-color: var(--bg-surface-subtle);
+        }
+
+        .btn-copy.is-copied {
+            border-color: var(--accent-success-border);
+            color: var(--accent-success);
+            background-color: var(--accent-success-bg);
+        }
+
+        .hero-spec-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .spec-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .spec-chip i {
+            color: var(--accent-primary);
+        }
+
+        /* Hero Teapot Emblem */
+        .hero-visual-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+        }
+
+        .teapot-vector-wrap {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 1.5rem;
+            transition: var(--transition);
+        }
+
+        .teapot-vector-wrap:hover {
+            transform: scale(1.04) rotate(-2deg);
+        }
+
+        .hero-card-tag {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-card-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ============================================================
+           04. ARCHITECTURE & SCAFFOLDING DIRECTORY
+           ============================================================ */
+        .section-wrap {
+            padding: 4.5rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-header {
+            margin-bottom: 2.75rem;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            line-height: 1.6;
+        }
+
+        .arch-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (min-width: 992px) {
+            .arch-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2.5rem;
+            }
+        }
+
+        .dir-tree-box {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
             overflow: hidden;
+            box-shadow: var(--shadow-card);
         }
 
-        /* Ensure teapot is not too big on small screens */
-        @media (max-width: 640px) {
-            #teapot {
-                width: 200px !important;
-                height: 200px !important;
-            }
+        .tree-header {
+            background-color: var(--bg-surface-elevated);
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-            .code-block {
-                font-size: 11px !important;
+        .tree-content {
+            padding: 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            overflow-x: auto;
+        }
+
+        .tree-folder {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .tree-file {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .tree-comment {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .arch-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .arch-item {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .arch-item:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .arch-item-title {
+            font-family: var(--font-title);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .arch-item-title i {
+            color: var(--accent-primary);
+        }
+
+        .arch-item-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ============================================================
+           05. CORE PRIMITIVES & CODE RECIPES
+           ============================================================ */
+        .recipes-container {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .tabs-header {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background-color: var(--bg-surface-elevated);
+            border-bottom: 1px solid var(--border-subtle);
+            scrollbar-width: none;
+        }
+
+        .tabs-header::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-button {
+            padding: 14px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-surface-subtle);
+        }
+
+        .tab-button[aria-selected="true"] {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+            background-color: var(--bg-surface);
+        }
+
+        .recipe-meta-bar {
+            padding: 9px 18px;
+            background-color: #1f1b18;
+            border-bottom: 1px solid #2e2823;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #a89f91;
+        }
+
+        .editor-stage {
+            display: flex;
+            background-color: var(--bg-code);
+            overflow-x: auto;
+            min-height: 320px;
+        }
+
+        .line-numbers {
+            padding: 1.25rem 0.85rem;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-right: 1px solid #2e2823;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.65;
+            color: #63584e;
+            text-align: right;
+            user-select: none;
+            min-width: 44px;
+        }
+
+        .code-viewport {
+            flex-grow: 1;
+            padding: 1.25rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            line-height: 1.65;
+            color: #e6dfd5;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* Syntax Highlight Tokens */
+        .hl-keyword { color: #f87171; font-weight: 600; }
+        .hl-function { color: #6ee7b7; }
+        .hl-string { color: #fed7aa; }
+        .hl-comment { color: #857465; font-style: italic; }
+        .hl-number { color: #fca5a5; }
+        .hl-variable { color: #fbbf24; }
+        .hl-operator { color: #fdba74; }
+
+        /* ============================================================
+           06. INTERACTIVE RESPONSE WORKBENCH
+           ============================================================ */
+        .workbench-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (min-width: 992px) {
+            .workbench-grid {
+                grid-template-columns: 0.9fr 1.1fr;
             }
         }
 
-        /* RemixIcon base size helpers */
-        .ri-sm  { font-size: 0.875rem; }
-        .ri-md  { font-size: 1rem;     }
-        .ri-lg  { font-size: 1.25rem;  }
-        .ri-xl  { font-size: 1.5rem;   }
+        .workbench-controls {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .field-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .endpoint-input-box {
+            display: flex;
+            background-color: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .endpoint-method {
+            padding: 8px 12px;
+            background-color: var(--bg-surface-subtle);
+            color: var(--accent-primary);
+            font-weight: 700;
+            border-right: 1px solid var(--border-subtle);
+            user-select: none;
+        }
+
+        .endpoint-url {
+            padding: 8px 12px;
+            color: var(--text-primary);
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .scenario-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .btn-scenario {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            background-color: var(--bg-surface-elevated);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .btn-scenario:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-scenario.active {
+            border-color: var(--accent-primary);
+            background-color: var(--accent-subtle);
+            color: var(--accent-primary);
+        }
+
+        .btn-trigger-mock {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-primary);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .btn-trigger-mock:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .workbench-display {
+            background-color: var(--bg-code);
+            border: 1px solid #2e2823;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .display-bar {
+            padding: 10px 16px;
+            background-color: #1f1b18;
+            border-bottom: 1px solid #2e2823;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #a89f91;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .status-badge.badge-200 {
+            background-color: #064e3b;
+            color: #a7f3d0;
+            border: 1px solid #059669;
+        }
+
+        .status-badge.badge-418 {
+            background-color: #78350f;
+            color: #fde68a;
+            border: 1px solid #d97706;
+        }
+
+        .display-content {
+            padding: 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e6dfd5;
+            overflow-x: auto;
+        }
+
+        .headers-peek {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed #3a322b;
+            font-size: 0.8rem;
+            color: #9c8e7f;
+        }
+
+        /* ============================================================
+           07. GETTING STARTED 3-STEPS
+           ============================================================ */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .steps-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .step-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.75rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-num {
+            font-family: var(--font-title);
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            line-height: 1;
+        }
+
+        .step-title {
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .step-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .step-code-inline {
+            display: block;
+            background-color: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 7px 10px;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--accent-primary);
+            margin-top: auto;
+            word-break: break-all;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           08. FOOTER
+           ============================================================ */
+        .site-footer {
+            padding: 4rem 0 2.5rem;
+            background-color: #f3efe6;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1.5fr 1fr 1fr;
+            }
+        }
+
+        .footer-brand p {
+            margin-top: 0.75rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            max-width: 360px;
+            line-height: 1.55;
+        }
+
+        .footer-col-title {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-nav a {
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .footer-nav a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
     </style>
 </head>
 
-<body
-    class="bg-[#070504] text-brand-text-primary font-sans overflow-x-hidden selection:bg-brand-accent-primary/30 selection:text-brand-text-primary">
-    <!-- Decorative Ambient Glows -->
-    <div
-        class="absolute w-[400px] h-[400px] rounded-full bg-radial from-brand-accent-primary/15 to-transparent blur-3xl -top-24 -left-24 pointer-events-none -z-10">
-    </div>
-    <div
-        class="absolute w-[450px] h-[450px] rounded-full bg-radial from-brand-accent-secondary/10 to-transparent blur-3xl top-[600px] -right-32 pointer-events-none -z-10">
-    </div>
-    <div
-        class="absolute w-[500px] h-[500px] rounded-full bg-radial from-brand-accent-primary/10 to-transparent blur-3xl bottom-32 left-[10%] pointer-events-none -z-10">
-    </div>
-
-    <!-- Sticky Header & Nav -->
-    <header
-        class="sticky top-0 z-50 bg-[#070504]/90 backdrop-blur-xl border-b border-brand-border transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-            <a href="#"
-                class="logo flex items-center gap-3 no-underline text-brand-text-primary font-title font-bold text-xl sm:text-2xl transition-transform duration-200 hover:scale-[1.02]">
-                <img src="./logo-teapotapps-white.png" alt="🫖" class="h-8 w-auto object-contain"
-                    onerror="this.style.display='none'; document.getElementById('emoji-logo').style.display='inline';" />
-                <span id="emoji-logo" style="display:none;" class="text-3xl">🫖</span>
-                TeapotApps
+<body>
+    <!-- Site Header & Sticky Navigation -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#" class="brand-link" aria-label="TeapotApps Home">
+                <img src="./logo-teapotapps.png" alt="TeapotApps Logo" class="brand-logo-img"
+                    onerror="this.style.display='none'; document.getElementById('brand-fallback-icon').style.display='inline';" />
+                <span id="brand-fallback-icon" style="display:none; font-size:1.5rem;">🫖</span>
+                <span>TeapotApps</span>
             </a>
 
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#features"
-                    class="no-underline text-brand-text-secondary hover:text-brand-accent-secondary transition-colors duration-200 text-sm font-medium">Features</a>
-                <a href="#tutorial"
-                    class="no-underline text-brand-text-secondary hover:text-brand-accent-secondary transition-colors duration-200 text-sm font-medium">Tutorials</a>
-                <a href="#sandbox"
-                    class="no-underline text-brand-text-secondary hover:text-brand-accent-secondary transition-colors duration-200 text-sm font-medium">Live
-                    Brewing</a>
+            <!-- Desktop Nav Links -->
+            <nav class="desktop-nav" aria-label="Primary Navigation">
+                <a href="#quickstart" class="nav-link">Quickstart</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#recipes" class="nav-link">Code Recipes</a>
+                <a href="#workbench" class="nav-link">API Workbench</a>
             </nav>
 
-            <div class="flex items-center gap-3">
-                <!-- GitHub button (hidden on mobile, shown in drawer) -->
-                <a href="https://github.com/teapotapps/project" target="_blank"
-                    class="hidden md:inline-flex btn-github items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-brand-accent-primary to-[#a04e13] rounded-lg text-brand-text-primary font-semibold text-sm no-underline shadow-lg shadow-brand-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-accent-primary/30 hover:from-brand-accent-secondary hover:to-brand-accent-primary cursor-pointer">
-                    <i class="ri-github-fill ri-md"></i>
-                    GitHub
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="https://www.npmjs.com/package/create-teapotapps" target="_blank" rel="noopener noreferrer"
+                    class="btn-header-action" title="View NPM Package">
+                    <i class="ri-npmjs-line" style="color: #cb3837;"></i>
+                    <span>NPM</span>
+                </a>
+                <a href="https://github.com/teapotapps/teapotapps.github.io" target="_blank" rel="noopener noreferrer"
+                    class="btn-header-action" title="GitHub Repository">
+                    <i class="ri-github-fill"></i>
+                    <span>GitHub</span>
                 </a>
 
-                <!-- Hamburger button (mobile only) -->
-                <button id="menu-toggle" onclick="toggleMobileMenu()"
-                    class="md:hidden flex flex-col gap-[5px] p-2 rounded-lg hover:bg-brand-accent-secondary/8 transition-all duration-200 cursor-pointer"
-                    aria-label="Toggle menu">
-                    <div id="hamburger-icon" class="flex flex-col gap-[5px]">
-                        <span class="bar-1"></span>
-                        <span class="bar-2"></span>
-                        <span class="bar-3"></span>
-                    </div>
+                <!-- Mobile Hamburger Toggle -->
+                <button type="button" class="mobile-toggle-btn" id="mobile-toggle" aria-expanded="false"
+                    aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Drawer Menu -->
-        <div id="mobile-menu" class="md:hidden border-t border-brand-border bg-[#070504]/95 backdrop-blur-xl">
-            <nav class="flex flex-col px-4 py-4 gap-1">
-                <a href="#features" onclick="closeMobileMenu()"
-                    class="no-underline text-brand-text-secondary hover:text-brand-accent-secondary hover:bg-brand-accent-secondary/5 transition-all duration-200 text-sm font-medium px-4 py-3 rounded-xl">Features</a>
-                <a href="#tutorial" onclick="closeMobileMenu()"
-                    class="no-underline text-brand-text-secondary hover:text-brand-accent-secondary hover:bg-brand-accent-secondary/5 transition-all duration-200 text-sm font-medium px-4 py-3 rounded-xl">Tutorials</a>
-                <a href="#sandbox" onclick="closeMobileMenu()"
-                    class="no-underline text-brand-text-secondary hover:text-brand-accent-secondary hover:bg-brand-accent-secondary/5 transition-all duration-200 text-sm font-medium px-4 py-3 rounded-xl">Live
-                    Brewing</a>
-                <div class="pt-2 border-t border-brand-border mt-2">
-                    <a href="https://github.com/teapotapps/project" target="_blank"
-                        class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-br from-brand-accent-primary to-[#a04e13] rounded-xl text-brand-text-primary font-semibold text-sm no-underline w-full justify-center">
-                        <i class="ri-github-fill ri-md"></i>
-                        View on GitHub
-                    </a>
-                </div>
+        <!-- Mobile Drawer -->
+        <div class="mobile-drawer" id="mobile-drawer">
+            <nav class="mobile-drawer-nav">
+                <a href="#quickstart" class="mobile-drawer-link" onclick="closeMobileMenu()">Quickstart</a>
+                <a href="#architecture" class="mobile-drawer-link" onclick="closeMobileMenu()">Architecture</a>
+                <a href="#recipes" class="mobile-drawer-link" onclick="closeMobileMenu()">Code Recipes</a>
+                <a href="#workbench" class="mobile-drawer-link" onclick="closeMobileMenu()">API Workbench</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative py-16 sm:py-24 md:py-32 overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <!-- Main Content Flow -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="quickstart">
+            <div class="container">
+                <div class="hero-grid">
+                    <!-- Hero Left Column -->
+                    <div class="hero-content">
+                        <div class="hero-meta-badge">
+                            <i class="ri-terminal-box-line"></i>
+                            <span>Node.js &gt;= 18 • Native ESM • Zero Bundling</span>
+                        </div>
+                        <h1 class="hero-title">
+                            Slowly Steeped,<br />Quickly Served.
+                        </h1>
+                        <p class="hero-lead">
+                            An authentic, lightweight Node.js backend framework crafted for modern JavaScript.
+                            Features clean route grouping, standardized API envelopes, and specialized 418 status
+                            interception without framework bloat.
+                        </p>
 
-                <!-- Left Text Column -->
-                <div class="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left" id="hero-left">
+                        <!-- CLI Command Card with Functional Copy -->
+                        <div class="cli-card">
+                            <div class="cli-code">
+                                <span class="cli-prompt">$</span>
+                                <span id="hero-cmd-text">npx create-teapotapps my-app</span>
+                            </div>
+                            <button type="button" class="btn-copy" id="hero-copy-btn"
+                                onclick="copyCommand('npx create-teapotapps my-app', this)"
+                                aria-label="Copy npx scaffolding command">
+                                <i class="ri-file-copy-line"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
 
-                    <!-- Version Badge -->
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-brand-accent-primary/10 border border-brand-accent-primary/25 rounded-full text-xs font-mono font-semibold text-brand-accent-secondary tracking-wider">
-                        <i class="ri-price-tag-3-line ri-sm"></i>
-                        v0.0.0-dev.5
-                        <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-secondary animate-pulse"></span>
+                        <!-- Technical Chips -->
+                        <div class="hero-spec-chips">
+                            <span class="spec-chip"><i class="ri-check-line"></i> Native ESM (import/export)</span>
+                            <span class="spec-chip"><i class="ri-check-line"></i> Express-compatible routing</span>
+                            <span class="spec-chip"><i class="ri-check-line"></i> MIT License</span>
+                        </div>
                     </div>
 
-                    <h2
-                        class="text-4xl sm:text-5xl lg:text-6xl font-title font-extrabold tracking-tight leading-[1.1] bg-gradient-to-br from-brand-text-primary via-brand-text-primary to-brand-accent-secondary bg-clip-text text-transparent">
-                        Slowly Steeped,<br />Quickly Served.
-                    </h2>
-                    <p class="text-lg text-brand-text-secondary max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                        TeapotApps is an exceptionally lightweight Node.js web framework built from the ground up for
-                        modern JavaScript (ESM). It provides clean modularity, lightweight footprint, and intuitive
-                        utilities for elegant API design.
-                    </p>
+                    <!-- Hero Right Visual -->
+                    <div class="hero-visual-card">
+                        <div class="teapot-vector-wrap" aria-hidden="true">
+                            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                style="width: 100%; height: 100%;">
+                                <defs>
+                                    <linearGradient id="teaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#3b2216" />
+                                        <stop offset="40%" stop-color="#7c3a16" />
+                                        <stop offset="85%" stop-color="#c25e1a" />
+                                        <stop offset="100%" stop-color="#d97736" />
+                                    </linearGradient>
+                                    <linearGradient id="knobGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#d97736" />
+                                        <stop offset="100%" stop-color="#c25e1a" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Spout -->
+                                <path d="M50 120C25 120 15 100 20 85C22 80 28 80 30 85C35 95 48 102 56 103"
+                                    stroke="url(#teaGradient)" stroke-width="8" stroke-linecap="round" />
+                                <path d="M22 84C21 82 25 80 27 82" stroke="#c25e1a" stroke-width="4" />
+                                <!-- Teapot Body -->
+                                <path
+                                    d="M60 115C60 85 80 65 105 65C130 65 150 85 150 115C150 145 130 160 105 160C80 160 60 145 60 115Z"
+                                    fill="url(#teaGradient)" stroke="#8f4010" stroke-width="3" />
+                                <!-- Lid & Knob -->
+                                <path d="M85 65C85 58 125 58 125 65" fill="#fdfcf9" stroke="#8f4010"
+                                    stroke-width="3" />
+                                <circle cx="105" cy="53" r="7" fill="url(#knobGrad)" stroke="#8f4010" stroke-width="2" />
+                                <!-- Handle -->
+                                <path d="M148 100C168 100 178 120 173 135C168 150 150 148 145 142"
+                                    stroke="url(#teaGradient)" stroke-width="8" stroke-linecap="round" />
+                                <!-- Accent Ring -->
+                                <path d="M64 120C75 127 135 127 146 120" stroke="#fdfcf9" stroke-width="2"
+                                    opacity="0.9" />
+                            </svg>
+                        </div>
+                        <h2 class="hero-card-tag">Artisanal Backend Engine</h2>
+                        <p class="hero-card-desc">
+                            Clean separation between route groups, controllers, and middleware contracts. Scaffolds in
+                            seconds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                    <!-- Interactive Terminal Box -->
-                    <div
-                        class="flex items-center justify-between w-full max-w-md mx-auto lg:mx-0 bg-[#0f0b09] border border-brand-border rounded-xl px-4 sm:px-5 py-3 sm:py-4 font-mono shadow-inner relative overflow-hidden group">
-                        <div
-                            class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-brand-accent-secondary/30 to-transparent">
+        <!-- Architecture & Scaffolding Section -->
+        <section class="section-wrap" id="architecture">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Folder Convention</div>
+                    <h2 class="section-title">Clean Modular Monorepo &amp; Scaffolding</h2>
+                    <p class="section-subtitle">
+                        TeapotApps provides a battle-tested structure out-of-the-box. Every folder has a clear,
+                        predictable purpose.
+                    </p>
+                </div>
+
+                <div class="arch-grid">
+                    <!-- Directory Tree -->
+                    <div class="dir-tree-box">
+                        <div class="tree-header">
+                            <span><i class="ri-folder-open-line"></i> my-app/ (Scaffolded Output)</span>
+                            <span>Native ESM</span>
                         </div>
-                        <div class="flex items-center">
-                            <span class="text-brand-accent-secondary mr-3 select-none font-bold">$</span>
-                            <span class="text-[#d8c2b1] text-sm" id="cli-cmd">npm install -g teapotapps</span>
+                        <div class="tree-content">
+                            <div><span class="tree-folder">├── src/</span></div>
+                            <div><span class="tree-folder">│   ├── controllers/</span> <span class="tree-comment"># API endpoint logic</span></div>
+                            <div>│   │   └── <span class="tree-file">WelcomeController.js</span></div>
+                            <div><span class="tree-folder">│   ├── core/</span> <span class="tree-comment"># Framework routing primitives</span></div>
+                            <div>│   │   └── <span class="tree-file">routeGroup.js</span></div>
+                            <div><span class="tree-folder">│   ├── libs/</span> <span class="tree-comment"># RestApiHandler response envelope</span></div>
+                            <div>│   │   └── <span class="tree-file">RestApiHandler.js</span></div>
+                            <div><span class="tree-folder">│   ├── middlewares/</span> <span class="tree-comment"># Auth &amp; 418 interceptor</span></div>
+                            <div>│   │   └── <span class="tree-file">verifyToken.js</span></div>
+                            <div><span class="tree-folder">│   ├── routes/</span> <span class="tree-comment"># Grouped modular routing</span></div>
+                            <div>│   │   └── <span class="tree-file">api.js</span></div>
+                            <div><span class="tree-folder">│   └── views/</span> <span class="tree-comment"># Lightweight server HTML views</span></div>
+                            <div>│       └── <span class="tree-file">Welcome.js</span></div>
+                            <div>├── <span class="tree-file">.env</span> <span class="tree-comment"># Environment configuration</span></div>
+                            <div>├── <span class="tree-file">index.js</span> <span class="tree-comment"># Application entry point</span></div>
+                            <div>└── <span class="tree-file">package.json</span> <span class="tree-comment"># "type": "module"</span></div>
                         </div>
-                        <button
-                            class="text-brand-text-muted hover:text-brand-accent-secondary hover:bg-brand-accent-secondary/8 p-2 rounded-lg transition-all duration-200 flex items-center justify-center cursor-pointer"
-                            onclick="copyCliCommand()" title="Copy command">
-                            <i id="copy-icon" class="ri-file-copy-line ri-md"></i>
+                    </div>
+
+                    <!-- Architectural Highlights -->
+                    <div class="arch-details">
+                        <div class="arch-item">
+                            <h3 class="arch-item-title">
+                                <i class="ri-git-branch-line"></i>
+                                <span>Declarative Route Grouping</span>
+                            </h3>
+                            <p class="arch-item-text">
+                                Define nested routes with specific prefix hierarchies and localized middleware pipelines
+                                using the concise <code>routeGroup</code> helper.
+                            </p>
+                        </div>
+
+                        <div class="arch-item">
+                            <h3 class="arch-item-title">
+                                <i class="ri-code-box-line"></i>
+                                <span>Consistent JSON Contract</span>
+                            </h3>
+                            <p class="arch-item-text">
+                                Standardize responses with <code>responseApi(res, data, meta, message, code)</code>.
+                                Guarantees consistent front-end consumption across all endpoints.
+                            </p>
+                        </div>
+
+                        <div class="arch-item">
+                            <h3 class="arch-item-title">
+                                <i class="ri-cup-line"></i>
+                                <span>RFC 2324 Teapot Handling</span>
+                            </h3>
+                            <p class="arch-item-text">
+                                Integrated status interceptor handles HTTP 418 gracefully, providing playful yet robust
+                                error containment for specialized handlers.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core API Primitives / Code Recipes Section -->
+        <section class="section-wrap" id="recipes">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Code Reference</div>
+                    <h2 class="section-title">Core Primitives &amp; Real Code Recipes</h2>
+                    <p class="section-subtitle">
+                        Inspect real code snippets from the TeapotApps template. No placeholder code or generic templates.
+                    </p>
+                </div>
+
+                <div class="recipes-container">
+                    <!-- Tab Switcher Header -->
+                    <div class="tabs-header" role="tablist" aria-label="Code Recipes">
+                        <button type="button" class="tab-button" role="tab" id="tab-btn-0" aria-selected="true"
+                            aria-controls="panel-0" onclick="switchRecipeTab(0)">
+                            <i class="ri-git-merge-line"></i>
+                            <span>1. Route Grouping</span>
+                        </button>
+                        <button type="button" class="tab-button" role="tab" id="tab-btn-1" aria-selected="false"
+                            aria-controls="panel-1" onclick="switchRecipeTab(1)">
+                            <i class="ri-brackets-line"></i>
+                            <span>2. Response Envelope</span>
+                        </button>
+                        <button type="button" class="tab-button" role="tab" id="tab-btn-2" aria-selected="false"
+                            aria-controls="panel-2" onclick="switchRecipeTab(2)">
+                            <i class="ri-cup-line"></i>
+                            <span>3. 418 Interceptor</span>
+                        </button>
+                        <button type="button" class="tab-button" role="tab" id="tab-btn-3" aria-selected="false"
+                            aria-controls="panel-3" onclick="switchRecipeTab(3)">
+                            <i class="ri-html5-line"></i>
+                            <span>4. Server View</span>
                         </button>
                     </div>
-                </div>
 
-                <!-- Right Interactive Teapot Visual Column -->
-                <div class="lg:col-span-5 flex justify-center items-center relative order-first lg:order-last"
-                    id="hero-right">
-                    <div class="w-52 h-52 sm:w-72 sm:h-72 lg:w-80 lg:h-80 relative cursor-pointer filter drop-shadow-[0_0_40px_rgba(210,105,30,0.15)] transition-transform duration-300 hover:scale-105 hover:-rotate-3"
-                        id="teapot" onclick="triggerSteamPoke()">
-                        <!-- Premium Styled SVG Teapot -->
-                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                            <!-- Glow aura -->
-                            <circle cx="100" cy="115" r="50" fill="url(#teapotGlow)" opacity="0.6" />
+                    <!-- Meta bar -->
+                    <div class="recipe-meta-bar">
+                        <span id="recipe-filename">src/routes/api.js</span>
+                        <button type="button" class="btn-copy" id="recipe-copy-btn" onclick="copyActiveRecipe(this)">
+                            <i class="ri-file-copy-line"></i>
+                            <span>Copy Snippet</span>
+                        </button>
+                    </div>
 
-                            <!-- Spout -->
-                            <path d="M50 120C25 120 15 100 20 85C22 80 28 80 30 85C35 95 48 102 56 103"
-                                stroke="url(#steepedGradient)" stroke-width="8" stroke-linecap="round" />
-                            <path d="M22 84C21 82 25 80 27 82" stroke="#e6a756" stroke-width="4" />
-
-                            <!-- Spout Pouring Stream -->
-                            <path d="M20 84C10 95 -5 125 5 150" stroke="url(#steepedGradient)" stroke-width="2"
-                                stroke-dasharray="4 4" opacity="0.3" id="pouring-glow" />
-
-                            <!-- Teapot Body -->
-                            <path
-                                d="M60 115C60 85 80 65 105 65C130 65 150 85 150 115C150 145 130 160 105 160C80 160 60 145 60 115Z"
-                                fill="url(#steepedGradient)" stroke="#e6a756" stroke-width="4" />
-
-                            <!-- Lid & Knob -->
-                            <path d="M85 65C85 58 125 58 125 65" fill="#120e0c" stroke="#e6a756" stroke-width="4" />
-                            <circle cx="105" cy="53" r="7" fill="url(#knobGradient)" stroke="#e6a756"
-                                stroke-width="2" />
-
-                            <!-- Handle -->
-                            <path d="M148 100C168 100 178 120 173 135C168 150 150 148 145 142"
-                                stroke="url(#steepedGradient)" stroke-width="8" stroke-linecap="round" />
-
-                            <!-- Cozy Accent Bands -->
-                            <path d="M63 118C75 125 135 125 147 118" stroke="#e6a756" stroke-width="2" opacity="0.7" />
-                            <path d="M68 126C80 133 130 133 142 126" stroke="#d2691e" stroke-width="1.5"
-                                opacity="0.5" />
-
-                            <defs>
-                                <radialGradient id="teapotGlow" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#e6a756" />
-                                    <stop offset="100%" stop-color="#000" stop-opacity="0" />
-                                </radialGradient>
-                                <linearGradient id="steepedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#1c1613" />
-                                    <stop offset="40%" stop-color="#2a1e19" />
-                                    <stop offset="85%" stop-color="#d2691e" />
-                                    <stop offset="100%" stop-color="#e6a756" />
-                                </linearGradient>
-                                <linearGradient id="knobGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#e6a756" />
-                                    <stop offset="100%" stop-color="#d2691e" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <!-- Editor Code Viewport -->
+                    <div class="editor-stage">
+                        <div class="line-numbers" id="recipe-lines" aria-hidden="true"></div>
+                        <div class="code-viewport" id="recipe-code" role="tabpanel" tabindex="0"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Core Features Section -->
-    <section class="py-16 sm:py-20 bg-gradient-to-b from-brand-bg-primary to-brand-bg-secondary relative" id="features">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-4" id="features-header">
-                <h3 class="font-title font-bold text-3.5xl lg:text-4xl text-brand-text-primary">
-                    Designed for Simplicity
-                </h3>
-                <p class="text-base text-brand-text-secondary leading-relaxed font-light">
-                    Enjoy a robust backend structure without unnecessary bloat. Fast to set up, pleasant to program, and
-                    highly custom.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 features-grid">
-                <!-- Card 1 -->
-                <div
-                    class="p-8 bg-brand-bg-secondary/70 border border-brand-border rounded-2xl backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-brand-border-hover hover:shadow-brand-accent-secondary/5 feature-card">
-                    <div
-                        class="flex items-center justify-center w-14 h-14 rounded-xl bg-brand-accent-primary/10 text-brand-accent-secondary mb-6 border border-brand-accent-secondary/15">
-                        <i class="ri-flashlight-line ri-xl"></i>
-                    </div>
-                    <h4 class="font-title font-semibold text-xl mb-3 text-brand-text-primary">Native ESM Support</h4>
-                    <p class="text-sm text-brand-text-secondary leading-relaxed font-light">Uses modern ECMAScript
-                        modules out-of-the-box. Clean import/export syntax without bundling, transpile latency, or hacky
-                        workarounds.</p>
-                </div>
-                <!-- Card 2 -->
-                <div
-                    class="p-8 bg-brand-bg-secondary/70 border border-brand-border rounded-2xl backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-brand-border-hover hover:shadow-brand-accent-secondary/5 feature-card">
-                    <div
-                        class="flex items-center justify-center w-14 h-14 rounded-xl bg-brand-accent-primary/10 text-brand-accent-secondary mb-6 border border-brand-accent-secondary/15">
-                        <i class="ri-folders-line ri-xl"></i>
-                    </div>
-                    <h4 class="font-title font-semibold text-xl mb-3 text-brand-text-primary">Modular Codebase</h4>
-                    <p class="text-sm text-brand-text-secondary leading-relaxed font-light">Scaffolds with logical
-                        separations for controllers, routing groups, helper libraries, middlewares, and server-side view
-                        layers.</p>
-                </div>
-                <!-- Card 3 -->
-                <div
-                    class="p-8 bg-brand-bg-secondary/70 border border-brand-border rounded-2xl backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-brand-border-hover hover:shadow-brand-accent-secondary/5 feature-card">
-                    <div
-                        class="flex items-center justify-center w-14 h-14 rounded-xl bg-brand-accent-primary/10 text-brand-accent-secondary mb-6 border border-brand-accent-secondary/15">
-                        <i class="ri-shield-check-line ri-xl"></i>
-                    </div>
-                    <h4 class="font-title font-semibold text-xl mb-3 text-brand-text-primary">Cozy Middlewares</h4>
-                    <p class="text-sm text-brand-text-secondary leading-relaxed font-light">Easily apply CORS, logging,
-                        authorization checkouts, or security headers either globally or localized to group routes.</p>
-                </div>
-                <!-- Card 4 -->
-                <div
-                    class="p-8 bg-brand-bg-secondary/70 border border-brand-border rounded-2xl backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-brand-border-hover hover:shadow-brand-accent-secondary/5 feature-card">
-                    <div
-                        class="flex items-center justify-center w-14 h-14 rounded-xl bg-brand-accent-primary/10 text-brand-accent-secondary mb-6 border border-brand-accent-secondary/15">
-                        <i class="ri-cup-line ri-xl"></i>
-                    </div>
-                    <h4 class="font-title font-semibold text-xl mb-3 text-brand-text-primary">Status 418 Intercept</h4>
-                    <p class="text-sm text-brand-text-secondary leading-relaxed font-light">Built-in customized status
-                        middleware that embraces HTTP 418 (I'm a teapot) and filters client-facing response APIs with
-                        style.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interactive Tutorial Showcase Section -->
-    <section class="py-16 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6" id="tutorial">
-        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12 space-y-4" id="tutorial-header">
-            <h3 class="font-title font-bold text-3xl sm:text-4xl text-brand-text-primary">
-                Developer Tutorial Guide
-            </h3>
-            <p class="text-base text-brand-text-secondary leading-relaxed font-light">
-                Learn how to steep your first backend logic inside TeapotApps. Follow the clean syntax below.
-            </p>
-        </div>
-
-        <!-- Navigation Tabs Bar -->
-        <div class="flex items-center justify-start sm:justify-center gap-1.5 bg-brand-bg-tertiary/60 border border-brand-border p-1.5 rounded-2xl max-w-2xl mx-auto mb-10 overflow-x-auto relative scrollbar-none"
-            id="tutorial-tabs">
-            <button
-                class="flex-shrink-0 sm:flex-1 py-2.5 sm:py-3 px-3 sm:px-4 text-center rounded-xl font-sans font-semibold text-xs sm:text-sm text-brand-bg-primary bg-brand-accent-secondary hover:text-brand-bg-primary transition-all duration-300 cursor-pointer whitespace-nowrap tab-btn"
-                onclick="switchTab(0, this)">
-                1. Quick Start
-            </button>
-            <button
-                class="flex-shrink-0 sm:flex-1 py-2.5 sm:py-3 px-3 sm:px-4 text-center rounded-xl font-sans font-semibold text-xs sm:text-sm text-brand-text-secondary hover:text-brand-text-primary transition-all duration-300 cursor-pointer whitespace-nowrap tab-btn"
-                onclick="switchTab(1, this)">
-                2. Router &amp; Group
-            </button>
-            <button
-                class="flex-shrink-0 sm:flex-1 py-2.5 sm:py-3 px-3 sm:px-4 text-center rounded-xl font-sans font-semibold text-xs sm:text-sm text-brand-text-secondary hover:text-brand-text-primary transition-all duration-300 cursor-pointer whitespace-nowrap tab-btn"
-                onclick="switchTab(2, this)">
-                3. Controller &amp; API
-            </button>
-            <button
-                class="flex-shrink-0 sm:flex-1 py-2.5 sm:py-3 px-3 sm:px-4 text-center rounded-xl font-sans font-semibold text-xs sm:text-sm text-brand-text-secondary hover:text-brand-text-primary transition-all duration-300 cursor-pointer whitespace-nowrap tab-btn"
-                onclick="switchTab(3, this)">
-                4. Server Views
-            </button>
-        </div>
-
-        <!-- Mock Editor Window -->
-        <div class="bg-[#0d0a09] border border-brand-border rounded-2xl overflow-hidden shadow-2xl" id="editor">
-            <!-- VS-Code Style Tabs Bar inside the Editor Frame -->
-            <div class="bg-[#14100e] px-4 py-0 flex items-center justify-between border-b border-brand-border">
-                <div class="flex items-center gap-4">
-                    <div class="flex gap-1.5 mr-2">
-                        <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-                        <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-                        <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
-                    </div>
-
-                    <!-- File Tabs container -->
-                    <div class="flex items-center bg-[#0d0a09] border-t-2 border-brand-accent-secondary px-4 py-3 text-brand-text-primary font-mono text-xs gap-2 border-r border-brand-border/20"
-                        id="editor-tab-display">
-                        <i class="ri-terminal-box-line ri-sm text-brand-accent-secondary"></i>
-                        <span id="editor-filename" class="font-medium">quickstart.sh</span>
-                        <i class="ri-close-line ri-sm hover:bg-brand-accent-primary/20 rounded cursor-pointer ml-1 text-brand-text-muted"></i>
-                    </div>
-                </div>
-                <div class="text-brand-text-muted/40 font-mono text-xs hidden sm:block mr-2">UTF-8 • TeapotApps Engine
-                </div>
-            </div>
-
-            <div class="flex min-h-[280px] sm:min-h-[380px] relative bg-[#0d0a09]">
-                <!-- Dynamic Line Numbers -->
-                <div class="py-6 px-4 bg-brand-bg-primary/40 border-r border-brand-accent-secondary/5 text-brand-text-muted/40 font-mono text-sm leading-6 text-right select-none min-w-[56px]"
-                    id="editor-lines">
-                    <!-- Javascript will auto-generate accurate number of lines here! -->
-                </div>
-
-                <!-- Code Block Content wrapper -->
-                <div class="flex-grow p-6 overflow-x-auto text-sm font-mono text-[#d8c2b1] leading-6">
-                    <!-- Tab 1 Code -->
-                    <div class="code-block hidden opacity-0 active !block !opacity-100" id="code-0"><span
-                            class="token comment"># Install the developer CLI globally</span>
-                        <span class="token prefix">$</span> <span class="token keyword">npm install</span> -g teapotapps
-
-                        <span class="token comment"># Scaffold your new cozy application</span>
-                        <span class="token prefix">$</span> <span class="token function">teapotapps create</span> my-app
-                        <span class="token prefix">$</span> <span class="token keyword">cd</span> my-app
-
-                        <span class="token comment"># Bootstrap and steeps your server live!</span>
-                        <span class="token prefix">$</span> <span class="token keyword">teapotapps dev</span>
-
-                        <span class="token comment"># Server starts running at http://localhost:3010 ☕</span>
-                    </div>
-
-                    <!-- Tab 2 Code -->
-                    <div class="code-block hidden opacity-0" id="code-1"><span class="token keyword">import</span> {
-                        <span class="token function">Router</span> } <span class="token keyword">from</span> <span
-                            class="token string">'express'</span>;
-                        <span class="token keyword">import</span> * as WelcomeController from
-                        '../controllers/WelcomeController.js';
-                        <span class="token keyword">import</span> { verifyToken } from '../middlewares/verifyToken.js';
-                        <span class="token keyword">import</span> { routeGroup } from '../core/routeGroup.js';
-
-                        const router = Router();
-
-                        // Modular nested routing group with dedicated security middleware!
-                        routeGroup(router, "/api", [verifyToken], (api) => {
-                        api.get('/wellcome', WelcomeController.apiWellcome);
-                        });
-
-                        export default router;
-                    </div>
-
-                    <!-- Tab 3 Code -->
-                    <div class="code-block hidden opacity-0" id="code-2"><span class="token keyword">import</span> {
-                        responseApi } from "../libs/RestApiHandler.js";
-
-                        /**
-                        * API welcome controller logic
-                        * Returns beautifully formatted client JSON response.
-                        */
-                        export const apiWellcome = async (req, res) => {
-                        const data = { 'users': 1 };
-                        const meta = { 'saya': 1 };
-
-                        return responseApi(
-                        res,
-                        data,
-                        meta,
-                        "Users fetched successfully!",
-                        0 // Code 418 triggers status 418
-                        );
-                        };</div>
-
-                    <!-- Tab 4 Code -->
-                    <div class="code-block hidden opacity-0" id="code-3"><span class="token comment">//
-                            src/views/Welcome.js</span>
-                        export default function Welcome({ name }) {
-                        return `
-                        &lt;!DOCTYPE html&gt;
-                        &lt;html lang="en"&gt;
-                        &lt;head&gt;
-                        &lt;title&gt;Steeped Tea&lt;/title&gt;
-                        &lt;style&gt;
-                        body { font-family: sans-serif; background: #090706; color: #f5efe6; text-align: center; }
-                        h1 { color: #e6a756; margin-top: 100px; }
-                        &lt;/style&gt;
-                        &lt;/head&gt;
-                        &lt;body&gt;
-                        &lt;h1&gt;☕ Cheers, \${name}!&lt;/h1&gt;
-                        &lt;p&gt;Minified and served fast in ESM style.&lt;/p&gt;
-                        &lt;/body&gt;
-                        &lt;/html&gt;
-                        `;
-                        }</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Live API Sandbox Interactive Brewing -->
-    <section class="py-16 sm:py-20 bg-gradient-to-b from-brand-bg-secondary to-brand-bg-primary relative" id="sandbox">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <!-- Sandbox Config Controls -->
-                <div class="lg:col-span-5 space-y-6" id="sandbox-left">
-                    <h4 class="font-title font-bold text-3xl text-brand-text-primary">Brew a Live API Mock</h4>
-                    <p class="text-sm text-brand-text-secondary leading-relaxed font-light">
-                        Toggle response status logic to see how TeapotApps handles active responses, including the
-                        famous custom status interceptor!
+        <!-- Interactive API Response Inspector Workbench -->
+        <section class="section-wrap" id="workbench">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Interactive Preview</div>
+                    <h2 class="section-title">Response Workbench</h2>
+                    <p class="section-subtitle">
+                        Test how the <code>responseApi()</code> helper standardizes JSON payloads between standard OK
+                        and 418 Teapot error responses.
                     </p>
-
-                    <div class="space-y-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-brand-text-muted">API
-                            Endpoints</span>
-                        <div
-                            class="flex bg-brand-bg-secondary/70 border border-brand-border rounded-lg overflow-hidden">
-                            <span
-                                class="px-4 py-3 bg-brand-accent-secondary/8 border-r border-brand-border font-mono font-bold text-xs text-brand-accent-secondary flex items-center">GET</span>
-                            <input
-                                class="flex-grow px-4 py-3 bg-transparent border-none text-brand-text-primary font-mono text-xs outline-none"
-                                type="text" value="http://localhost:3010/api/wellcome" readonly />
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-brand-text-muted">Trigger
-                            Response Style</span>
-                        <div class="flex gap-4">
-                            <div class="flex-1 py-3 text-center bg-brand-bg-secondary/50 border border-brand-border rounded-lg cursor-pointer transition-all duration-200 hover:border-brand-accent-secondary hover:bg-brand-accent-secondary/5 text-sm active border-brand-accent-secondary bg-brand-accent-secondary/10 text-brand-accent-secondary font-semibold"
-                                id="opt-200" onclick="setStatusOption(200)">
-                                Code 0 (Success 200)
-                            </div>
-                            <div class="flex-1 py-3 text-center bg-brand-bg-secondary/50 border border-brand-border rounded-lg cursor-pointer transition-all duration-200 hover:border-brand-accent-secondary hover:bg-brand-accent-secondary/5 text-sm"
-                                id="opt-418" onclick="setStatusOption(418)">
-                                Code 418 (Teapot!)
-                            </div>
-                        </div>
-                    </div>
-
-                    <button
-                        class="w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-brand-accent-secondary to-brand-accent-primary border-none rounded-lg text-brand-bg-primary font-bold text-base cursor-pointer shadow-lg shadow-brand-accent-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-accent-secondary/35"
-                        onclick="triggerBrewMock()">
-                        <i class="ri-cup-line ri-md"></i>
-                        <span>Pour Response</span>
-                    </button>
                 </div>
 
-                <!-- Sandbox Mock Console Visualizer -->
-                <div class="lg:col-span-7 bg-[#080605] border border-brand-border rounded-2xl h-[300px] sm:h-[400px] overflow-hidden flex flex-col shadow-2xl"
-                    id="sandbox-right">
-                    <div
-                        class="bg-[#100c0b] px-5 py-3.5 flex items-center justify-between border-b border-brand-accent-secondary/5 font-mono text-xs text-brand-text-muted">
-                        <span>TEAPOTAPPS API LOGGER</span>
-                        <span>localhost:3010</span>
+                <div class="workbench-grid">
+                    <!-- Controls Column -->
+                    <div class="workbench-controls">
+                        <div class="field-group">
+                            <label class="field-label" for="endpoint-url">Target Endpoint</label>
+                            <div class="endpoint-input-box">
+                                <span class="endpoint-method">GET</span>
+                                <input type="text" id="endpoint-url" class="endpoint-url"
+                                    value="http://localhost:3010/api/wellcome" readonly />
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <span class="field-label">Simulate Response Type</span>
+                            <div class="scenario-selector">
+                                <button type="button" class="btn-scenario active" id="btn-scen-200"
+                                    onclick="setWorkbenchStatus(200)">
+                                    Code 0 (HTTP 200 OK)
+                                </button>
+                                <button type="button" class="btn-scenario" id="btn-scen-418"
+                                    onclick="setWorkbenchStatus(418)">
+                                    Code 418 (Teapot)
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-trigger-mock" onclick="triggerWorkbenchInspect()">
+                            <i class="ri-play-fill"></i>
+                            <span>Inspect Payload</span>
+                        </button>
                     </div>
-                    <div class="flex-grow p-6 font-mono text-xs overflow-y-auto text-[#d8c2b1] space-y-2">
-                        <div class="log-line text-brand-text-muted !opacity-100 !translate-y-0">// Logs will output here
-                            when you click "Pour Response"...</div>
+
+                    <!-- Inspector Visualizer Column -->
+                    <div class="workbench-display">
+                        <div class="display-bar">
+                            <span>OUTPUT ENVELOPE</span>
+                            <span id="response-status-badge" class="status-badge badge-200">200 OK</span>
+                        </div>
+                        <div class="display-content">
+                            <div class="headers-peek" id="response-headers">
+                                Content-Type: application/json; charset=utf-8<br />
+                                X-Powered-By: TeapotApps/1.0
+                            </div>
+                            <pre id="response-payload-json" style="font-family: inherit; margin: 0;"></pre>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer & License -->
-    <footer
-        class="relative bg-[#040302] border-t border-brand-border pt-14 sm:pt-20 pb-10 sm:pb-12 text-brand-text-secondary text-sm overflow-hidden">
-        <!-- Decorative Ambient Glow in Footer -->
-        <div
-            class="absolute w-[300px] h-[300px] rounded-full bg-radial from-brand-accent-primary/10 to-transparent blur-3xl -bottom-20 -right-20 pointer-events-none -z-10">
-        </div>
-        <div
-            class="absolute w-[300px] h-[300px] rounded-full bg-radial from-brand-accent-secondary/5 to-transparent blur-3xl -top-20 -left-20 pointer-events-none -z-10">
-        </div>
+        <!-- 3-Step Getting Started -->
+        <section class="section-wrap">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">Fast Setup</div>
+                    <h2 class="section-title">Up and Running in 3 Minutes</h2>
+                    <p class="section-subtitle">
+                        Zero complex configuration files. Follow these three steps to begin developing.
+                    </p>
+                </div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <!-- Main Grid Layout -->
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-12 gap-8 sm:gap-12 pb-12 sm:pb-16">
-                <!-- Brand Info Column -->
-                <div class="col-span-2 sm:col-span-2 md:col-span-4 space-y-5 sm:space-y-6 text-left">
-                    <a href="#"
-                        class="logo flex items-center gap-3 no-underline text-brand-text-primary font-title font-bold text-2xl transition-transform duration-200 hover:scale-[1.02] w-fit">
-                        <img src="./logo-teapotapps-white.png" alt="🫖" class="h-8 w-auto object-contain"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
-                        <span style="display:none;" class="text-2xl">🫖</span>
-                        TeapotApps
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-num">01</div>
+                        <h3 class="step-title">Scaffold Project</h3>
+                        <p class="step-desc">Run the automated interactive generator to configure your project name and settings.</p>
+                        <code class="step-code-inline">npx create-teapotapps my-app</code>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-num">02</div>
+                        <h3 class="step-title">Start Dev Server</h3>
+                        <p class="step-desc">Enter your directory and run the local development server with instant hot reload.</p>
+                        <code class="step-code-inline">cd my-app &amp;&amp; npm run dev</code>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-num">03</div>
+                        <h3 class="step-title">Steep Your APIs</h3>
+                        <p class="step-desc">Your modular backend will be live on port 3010, ready for custom route groups and controllers.</p>
+                        <code class="step-code-inline">http://localhost:3010/api/wellcome</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Col 1: Brand -->
+                <div class="footer-brand">
+                    <a href="#" class="brand-link" aria-label="TeapotApps Home">
+                        <img src="./logo-teapotapps.png" alt="TeapotApps Logo" class="brand-logo-img" />
+                        <span>TeapotApps</span>
                     </a>
-                    <p class="text-xs text-brand-text-secondary leading-relaxed max-w-sm">
-                        A native ESM, lightweight Node.js web framework built for elegance and simplicity. Cozy 418
-                        Teapot handling, modular routes, and optimized layouts. Slowly steeped, quickly served.
+                    <p>
+                        A native ESM lightweight Node.js web framework. Designed for simplicity, clean modular
+                        architectures, and standardized API contracts.
                     </p>
-
-                    <!-- Social Links -->
-                    <div class="flex items-center gap-4 pt-2">
-                        <a href="https://github.com/teapotapps/project" target="_blank"
-                            class="w-8 h-8 rounded-lg bg-brand-bg-secondary border border-brand-border flex items-center justify-center text-brand-text-secondary hover:text-brand-accent-secondary hover:border-brand-accent-secondary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-accent-secondary/10"
-                            title="GitHub">
-                            <i class="ri-github-fill ri-md"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/teapotapps/" target="_blank"
-                            class="w-8 h-8 rounded-lg bg-brand-bg-secondary border border-brand-border flex items-center justify-center text-brand-text-secondary hover:text-brand-accent-secondary hover:border-brand-accent-secondary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-accent-secondary/10"
-                            title="LinkedIn - TeapotApps">
-                            <i class="ri-linkedin-fill ri-md"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/ivannofick/" target="_blank"
-                            class="w-8 h-8 rounded-lg bg-brand-bg-secondary border border-brand-border flex items-center justify-center text-brand-text-secondary hover:text-brand-accent-secondary hover:border-brand-accent-secondary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-accent-secondary/10"
-                            title="LinkedIn - Owner">
-                            <i class="ri-user-line ri-md"></i>
-                        </a>
-                        <a href="mailto:appsteapot@gmail.com"
-                            class="w-8 h-8 rounded-lg bg-brand-bg-secondary border border-brand-border flex items-center justify-center text-brand-text-secondary hover:text-brand-accent-secondary hover:border-brand-accent-secondary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-accent-secondary/10"
-                            title="Email - appsteapot@gmail.com">
-                            <i class="ri-mail-line ri-md"></i>
-                        </a>
-                    </div>
                 </div>
 
-                <!-- Explore Links Column -->
-                <div class="col-span-1 md:col-span-2 md:col-start-6 space-y-4 text-left">
-                    <h5 class="text-xs font-semibold uppercase tracking-wider text-brand-accent-secondary/80 font-mono">
-                        Explore</h5>
-                    <ul class="space-y-2.5 text-xs">
-                        <li>
-                            <a href="#features"
-                                class="text-brand-text-secondary hover:text-brand-accent-secondary no-underline transition-colors duration-200">Features</a>
-                        </li>
-                        <li>
-                            <a href="#tutorial"
-                                class="text-brand-text-secondary hover:text-brand-accent-secondary no-underline transition-colors duration-200">Developer
-                                Tutorial</a>
-                        </li>
-                        <li>
-                            <a href="#sandbox"
-                                class="text-brand-text-secondary hover:text-brand-accent-secondary no-underline transition-colors duration-200">Live
-                                API Sandbox</a>
-                        </li>
+                <!-- Col 2: Navigation -->
+                <div>
+                    <div class="footer-col-title">Documentation</div>
+                    <ul class="footer-nav">
+                        <li><a href="#quickstart">Quickstart</a></li>
+                        <li><a href="#architecture">Monorepo Architecture</a></li>
+                        <li><a href="#recipes">Code Recipes</a></li>
+                        <li><a href="#workbench">Response Workbench</a></li>
                     </ul>
                 </div>
 
-                <!-- Community Links Column -->
-                <div class="col-span-1 md:col-span-2 space-y-4 text-left">
-                    <h5 class="text-xs font-semibold uppercase tracking-wider text-brand-accent-secondary/80 font-mono">
-                        Community</h5>
-                    <ul class="space-y-2.5 text-xs">
-                        <li>
-                            <a href="https://github.com/teapotapps/project" target="_blank"
-                                class="text-brand-text-secondary hover:text-brand-accent-secondary no-underline transition-colors duration-200 inline-flex items-center gap-1">
-                                GitHub Source <i class="ri-external-link-line ri-sm text-brand-text-muted"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.npmjs.com/package/teapotapps" target="_blank"
-                                class="text-brand-text-secondary hover:text-brand-accent-secondary no-underline transition-colors duration-200 inline-flex items-center gap-1">
-                                NPM Package <i class="ri-external-link-line ri-sm text-brand-text-muted"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/teapotapps/project/issues" target="_blank"
-                                class="text-brand-text-secondary hover:text-brand-accent-secondary no-underline transition-colors duration-200 inline-flex items-center gap-1">
-                                Issue Tracker <i class="ri-external-link-line ri-sm text-brand-text-muted"></i>
-                            </a>
-                        </li>
+                <!-- Col 3: Community & Links -->
+                <div>
+                    <div class="footer-col-title">Community &amp; Source</div>
+                    <ul class="footer-nav">
+                        <li><a href="https://github.com/teapotapps/teapotapps.github.io" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+                        <li><a href="https://www.npmjs.com/package/create-teapotapps" target="_blank" rel="noopener noreferrer">NPM Package</a></li>
+                        <li><a href="https://www.linkedin.com/in/ivannofick/" target="_blank" rel="noopener noreferrer">Maintainer (Ivannofick)</a></li>
+                        <li><a href="https://www.linkedin.com/in/teapotapps/" target="_blank" rel="noopener noreferrer">LinkedIn Official</a></li>
                     </ul>
-                </div>
-
-                <!-- Newsletter Column -->
-                <div class="col-span-2 sm:col-span-2 md:col-span-3 space-y-4 text-left">
-                    <h5 class="text-xs font-semibold uppercase tracking-wider text-brand-accent-secondary/80 font-mono">
-                        Stay Steeped</h5>
-                    <p class="text-xs text-brand-text-secondary leading-relaxed">
-                        Subscribe to get notified on cozy new releases, community templates, and modular middleware.
-                    </p>
-
-                    <!-- Newsletter Form Box with custom success animation wrapper -->
-                    <div id="newsletter-container" class="relative text-[#bfaea2]">
-                        <form id="newsletter-form" onsubmit="subscribeNewsletter(event)"
-                            class="flex gap-2 bg-brand-bg-secondary/70 border border-brand-border p-1 rounded-xl focus-within:border-brand-accent-secondary/40 focus-within:ring-1 focus-within:ring-brand-accent-secondary/20 transition-all duration-300">
-                            <input type="email" required placeholder="Enter email..."
-                                class="flex-grow px-3 py-2 bg-transparent text-xs text-brand-text-primary placeholder:text-brand-text-muted outline-none w-full" />
-                            <button type="submit"
-                                class="px-4 py-2 bg-gradient-to-br from-brand-accent-primary to-[#a04e13] rounded-lg text-brand-text-primary font-semibold text-xs transition-all duration-300 hover:from-brand-accent-secondary hover:to-brand-accent-primary shadow-md shadow-brand-accent-primary/10 cursor-pointer flex items-center justify-center gap-1.5">
-                                <i class="ri-mail-line ri-sm"></i>
-                                Steep
-                            </button>
-                        </form>
-
-                        <!-- Success Card State (Hidden Initially) -->
-                        <div id="newsletter-success"
-                            class="hidden absolute inset-0 bg-[#0f0b09]/95 border border-[#52b788]/20 p-3 rounded-xl flex items-center gap-3 shadow-lg shadow-[#52b788]/5">
-                            <div
-                                class="w-7 h-7 rounded-lg bg-[#52b788]/10 text-[#52b788] flex items-center justify-center flex-shrink-0">
-                                <i class="ri-check-line ri-md"></i>
-                            </div>
-                            <div class="text-xs text-brand-text-primary leading-tight font-medium">
-                                🍵 Welcome to the tea party! Check your inbox soon.
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <!-- Bottom Row with Copyright and Status Dot -->
-            <div
-                class="border-t border-brand-border/40 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 text-center sm:text-left">
-                <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-center sm:text-left">
-                    <p class="text-[12px] text-brand-text-secondary font-medium">
-                        © 2026 TeapotApps Framework. Steeped slowly, served instantly in native ESM.
-                    </p>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-brand-accent-primary/8 border border-brand-accent-primary/20 rounded-full text-[10px] font-mono text-brand-accent-secondary whitespace-nowrap">
-                        <i class="ri-price-tag-3-line ri-sm"></i>
-                        v0.0.0-dev.5
-                    </span>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <!-- pulsing status dot pill -->
-                    <div
-                        class="flex items-center gap-2 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs text-emerald-400 font-medium">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        All systems steeping
-                    </div>
-
-                    <a href="https://github.com/teapotapps/project/blob/main/LICENSE" target="_blank"
-                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-accent-secondary/5 border border-brand-accent-secondary/15 rounded-full text-xs text-brand-accent-secondary font-medium hover:bg-brand-accent-secondary/10 hover:border-brand-accent-secondary/35 transition-colors no-underline">
-                        <i class="ri-shield-line ri-sm"></i>
-                        MIT License
-                    </a>
-                </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TeapotApps Framework. Released under the MIT License.</p>
+                <p>Steeped slowly, served instantly in native ESM.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Script Logic & GSAP Animations -->
+    <!-- Minimal Functional Vanilla JS -->
     <script>
-        // -------------------------------------------------------------
-        // Mobile Menu Toggle
-        // -------------------------------------------------------------
+        // ============================================================
+        // 01. Mobile Navigation Menu Toggle with ARIA & Esc Key
+        // ============================================================
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('hamburger-icon');
-            const isOpen = menu.classList.contains('open');
-            if (isOpen) {
-                menu.classList.remove('open');
-                icon.classList.remove('open');
-                document.body.classList.remove('menu-open');
-            } else {
-                menu.classList.add('open');
-                icon.classList.add('open');
-                document.body.classList.add('menu-open');
+            const btn = document.getElementById('mobile-toggle');
+            const drawer = document.getElementById('mobile-drawer');
+            const isOpen = drawer.classList.contains('is-open');
 
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                drawer.classList.add('is-open');
+                btn.setAttribute('aria-expanded', 'true');
             }
         }
 
         function closeMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('hamburger-icon');
-            menu.classList.remove('open');
-            icon.classList.remove('open');
-            document.body.classList.remove('menu-open');
+            const btn = document.getElementById('mobile-toggle');
+            const drawer = document.getElementById('mobile-drawer');
+            if (drawer) drawer.classList.remove('is-open');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
         }
 
-        // Close mobile menu on resize to desktop
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) closeMobileMenu();
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
         });
 
-        // -------------------------------------------------------------
-        // GSAP Core Animations on Page Load
-        // -------------------------------------------------------------
-        window.addEventListener('DOMContentLoaded', () => {
-            // Hero section fade-in elements
-            gsap.from('#hero-left h2', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' });
-            gsap.from('#hero-left p', { opacity: 0, y: 30, duration: 0.8, delay: 0.2, ease: 'power3.out' });
-            gsap.from('#hero-left .terminal-box', { opacity: 0, y: 30, duration: 0.8, delay: 0.4, ease: 'power3.out' });
-            gsap.from('#hero-right', { opacity: 0, scale: 0.85, duration: 1, delay: 0.3, ease: 'back.out(1.4)' });
-
-            // Animate headers on scroll using basic custom class observer
-            const scrollElements = document.querySelectorAll('#features-header, #tutorial-header, #sandbox-left, #sandbox-right');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        gsap.fromTo(entry.target,
-                            { opacity: 0, y: 40 },
-                            { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
-                        );
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            scrollElements.forEach(el => observer.observe(el));
-
-            // Feature cards entrance stagger
-            const featureCardsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const cards = entry.target.querySelectorAll('.feature-card');
-                        gsap.fromTo(cards,
-                            { opacity: 0, y: 35 },
-                            { opacity: 1, y: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out' }
-                        );
-                        featureCardsObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.05 });
-
-            const featuresGrid = document.querySelector('.features-grid');
-            if (featuresGrid) featureCardsObserver.observe(featuresGrid);
-
-            // Dynamically generate line numbers for default code-0 tab
-            const initialCodeBlock = document.getElementById('code-0');
-            if (initialCodeBlock) {
-                updateLineNumbers(initialCodeBlock);
+        // ============================================================
+        // 02. Clipboard Copy Helper
+        // ============================================================
+        function copyCommand(text, btnElement) {
+            if (!navigator.clipboard) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showCopySuccess(btnElement);
+                return;
             }
 
-            // Continuously emit steam bubbles from the teapot!
-            startSteamAnimation();
-        });
-
-        // -------------------------------------------------------------
-        // Floating Steam Animation using GSAP
-        // -------------------------------------------------------------
-        let steamInterval;
-
-        function startSteamAnimation() {
-            const container = document.getElementById('teapot');
-            if (!container) return;
-
-            steamInterval = setInterval(() => {
-                createSteamBubble(container);
-            }, 600);
-        }
-
-        function createSteamBubble(container) {
-            const bubble = document.createElement('div');
-            bubble.className = 'steam-bubble';
-
-            // Random diameter between 10px and 24px
-            const size = Math.floor(Math.random() * 14) + 10;
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-
-            // Place near the spout spout location (Left edge)
-            bubble.style.left = '32px';
-            bubble.style.top = '120px';
-
-            container.appendChild(bubble);
-
-            // GSAP float up & expand, then fade away
-            gsap.to(bubble, {
-                opacity: Math.random() * 0.6 + 0.3,
-                x: -30 - Math.random() * 40, // float left
-                y: -60 - Math.random() * 60, // float up
-                width: size * 1.8,
-                height: size * 1.8,
-                duration: 2 + Math.random() * 1.5,
-                ease: 'sine.out',
-                onComplete: () => {
-                    bubble.remove();
-                }
+            navigator.clipboard.writeText(text).then(() => {
+                showCopySuccess(btnElement);
             });
         }
 
-        // Action when user clicks/pokes the teapot
-        function triggerSteamPoke() {
-            const container = document.getElementById('teapot');
-            // Tilt animation
-            gsap.timeline()
-                .to(container, { rotation: -12, scale: 1.06, duration: 0.15, ease: 'power2.out' })
-                .to(container, { rotation: 0, scale: 1, duration: 0.5, ease: 'bounce.out' });
+        function showCopySuccess(btn) {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="ri-check-line"></i> <span>Copied!</span>';
+            btn.classList.add('is-copied');
 
-            // Release a puff of steam!
-            for (let i = 0; i < 8; i++) {
-                setTimeout(() => {
-                    createSteamBubble(container);
-                }, i * 80);
-            }
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('is-copied');
+            }, 2000);
         }
 
-        // -------------------------------------------------------------
-        // Copy CLI Command Action
-        // -------------------------------------------------------------
-        function copyCliCommand() {
-            const cmdText = document.getElementById('cli-cmd').textContent;
-            navigator.clipboard.writeText(cmdText).then(() => {
-                const icon = document.getElementById('copy-icon');
-                icon.className = 'ri-check-line ri-md';
-                icon.style.color = '#52b788';
+        // ============================================================
+        // 03. Recipe Tabs Data & Switcher
+        // ============================================================
+        const recipesData = [
+            {
+                filename: 'src/routes/api.js',
+                code: `<span class="hl-keyword">import</span> { <span class="hl-function">Router</span> } <span class="hl-keyword">from</span> <span class="hl-string">'express'</span>;
+<span class="hl-keyword">import</span> * <span class="hl-keyword">as</span> WelcomeController <span class="hl-keyword">from</span> <span class="hl-string">'../controllers/WelcomeController.js'</span>;
+<span class="hl-keyword">import</span> { verifyToken } <span class="hl-keyword">from</span> <span class="hl-string">'../middlewares/verifyToken.js'</span>;
+<span class="hl-keyword">import</span> { routeGroup } <span class="hl-keyword">from</span> <span class="hl-string">'../core/routeGroup.js'</span>;
 
-                // Pulse terminal box border visually
-                const box = document.getElementById('cli-cmd').parentElement.parentElement;
-                gsap.timeline()
-                    .to(box, { borderColor: '#52b788', duration: 0.15 })
-                    .to(box, { borderColor: 'rgba(230, 167, 86, 0.1)', duration: 0.8, delay: 1 });
+<span class="hl-keyword">const</span> router = <span class="hl-function">Router</span>();
 
-                setTimeout(() => {
-                    icon.className = 'ri-file-copy-line ri-md';
-                    icon.style.color = '';
-                }, 2000);
+<span class="hl-comment">// Modular nested routing group with localized authentication middleware</span>
+<span class="hl-function">routeGroup</span>(router, <span class="hl-string">"/api"</span>, [verifyToken], (api) => {
+  api.<span class="hl-function">get</span>(<span class="hl-string">'/wellcome'</span>, WelcomeController.apiWellcome);
+});
+
+<span class="hl-keyword">export default</span> router;`
+            },
+            {
+                filename: 'src/controllers/WelcomeController.js',
+                code: `<span class="hl-keyword">import</span> { responseApi } <span class="hl-keyword">from</span> <span class="hl-string">'../libs/RestApiHandler.js'</span>;
+
+<span class="hl-comment">/**
+ * Standardized API controller logic returning uniform JSON envelope
+ */</span>
+<span class="hl-keyword">export const</span> apiWellcome = <span class="hl-keyword">async</span> (req, res) => {
+  <span class="hl-keyword">const</span> data = { users: <span class="hl-number">1</span>, status: <span class="hl-string">'active'</span> };
+  <span class="hl-keyword">const</span> meta = { timestamp: <span class="hl-function">Date.now</span>(), page: <span class="hl-number">1</span> };
+
+  <span class="hl-keyword">return</span> <span class="hl-function">responseApi</span>(
+    res,
+    data,
+    meta,
+    <span class="hl-string">"Users fetched successfully!"</span>,
+    <span class="hl-number">0</span> <span class="hl-comment">// Code 0 maps to standard HTTP 200</span>
+  );
+};`
+            },
+            {
+                filename: 'src/middlewares/teapotHandler.js',
+                code: `<span class="hl-comment">/**
+ * RFC 2324 status interceptor: catches code 418 and applies custom tea payload
+ */</span>
+<span class="hl-keyword">export const</span> teapotInterceptor = (code, message) => {
+  <span class="hl-keyword">if</span> (code === <span class="hl-number">418</span>) {
+    <span class="hl-keyword">return</span> {
+      httpStatus: <span class="hl-number">418</span>,
+      clientMessage: <span class="hl-string">"[I am a teapot]: "</span> + message,
+      steeped: <span class="hl-keyword">true</span>
+    };
+  }
+  <span class="hl-keyword">return</span> { httpStatus: <span class="hl-number">200</span>, clientMessage: message, steeped: <span class="hl-keyword">false</span> };
+};`
+            },
+            {
+                filename: 'src/views/Welcome.js',
+                code: `<span class="hl-comment">/**
+ * Native ESM server-rendered view function
+ */</span>
+<span class="hl-keyword">export default function</span> <span class="hl-function">Welcome</span>({ name }) {
+  <span class="hl-keyword">return</span> <span class="hl-string">\`&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;TeapotApps - Ready&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Steeped with care, \${name}!&lt;/h1&gt;
+  &lt;p&gt;High performance, native ESM execution.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;\`</span>;
+}`
+            }
+        ];
+
+        let activeRecipeIndex = 0;
+
+        function switchRecipeTab(index) {
+            activeRecipeIndex = index;
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((btn, i) => {
+                btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
             });
-        }
 
-        // -------------------------------------------------------------
-        // Dynamic Line Number Counter Function
-        // -------------------------------------------------------------
-        function updateLineNumbers(targetCodeBlock) {
-            const linesEl = document.getElementById('editor-lines');
-            if (!linesEl) return;
+            const data = recipesData[index];
+            document.getElementById('recipe-filename').textContent = data.filename;
+            const codeEl = document.getElementById('recipe-code');
+            codeEl.innerHTML = data.code;
 
-            // Extract the raw text of the code block
-            const codeText = targetCodeBlock.innerText || targetCodeBlock.textContent;
-
-            // Split by newlines
-            const lines = codeText.split(/\r?\n/);
-
-            // If last line is empty, remove it to match visual lines perfectly
-            if (lines.length > 0 && lines[lines.length - 1].trim() === '') {
-                lines.pop();
-            }
-
+            // Generate accurate line numbers
+            const lineCount = data.code.split(/\r?\n/).length;
             let linesHtml = '';
-            for (let i = 1; i <= lines.length; i++) {
+            for (let i = 1; i <= lineCount; i++) {
                 linesHtml += i + '<br/>';
             }
-            linesEl.innerHTML = linesHtml;
+            document.getElementById('recipe-lines').innerHTML = linesHtml;
         }
 
-        // -------------------------------------------------------------
-        // Tab Switching for Tutorial Showcase
-        // -------------------------------------------------------------
-        const filenames = [
-            'quickstart.sh',
-            'src/routes/api.js',
-            'src/controllers/WelcomeController.js',
-            'src/views/Welcome.js'
-        ];
-
-        const fileIcons = [
-            'ri-terminal-box-line',
-            'ri-code-s-slash-line',
-            'ri-code-s-slash-line',
-            'ri-code-s-slash-line'
-        ];
-
-        function switchTab(index, btn) {
-            // Remove active style from all buttons
-            const btns = document.querySelectorAll('.tab-btn');
-            btns.forEach(b => {
-                b.classList.remove('bg-brand-accent-secondary', 'text-brand-bg-primary', 'hover:text-brand-bg-primary');
-                b.classList.add('text-brand-text-secondary', 'hover:text-brand-text-primary');
-            });
-            btn.classList.remove('text-brand-text-secondary', 'hover:text-brand-text-primary');
-            btn.classList.add('bg-brand-accent-secondary', 'text-brand-bg-primary', 'hover:text-brand-bg-primary');
-
-            // Update filename & icon inside the active editor tab
-            const tabDisplay = document.getElementById('editor-tab-display');
-            tabDisplay.innerHTML = `
-                <i class="${fileIcons[index]} ri-sm text-brand-accent-secondary"></i>
-                <span id="editor-filename" class="font-medium">${filenames[index]}</span>
-                <i class="ri-close-line ri-sm hover:bg-brand-accent-primary/20 rounded cursor-pointer ml-1 text-brand-text-muted"></i>
-            `;
-
-            // Fade code block out and in
-            const currentCode = document.querySelector('.code-block.active');
-            const targetCode = document.getElementById(`code-${index}`);
-
-            if (currentCode === targetCode) return;
-
-            // Generate accurate line numbers for target tab before transition
-            updateLineNumbers(targetCode);
-
-            gsap.to(currentCode, {
-                opacity: 0,
-                y: -5,
-                duration: 0.2,
-                onComplete: () => {
-                    currentCode.classList.remove('active', '!block', '!opacity-100');
-                    currentCode.classList.add('hidden');
-
-                    targetCode.classList.remove('hidden');
-                    targetCode.classList.add('active', '!block');
-                    targetCode.style.opacity = '0';
-                    targetCode.style.transform = 'translateY(5px)';
-
-                    gsap.to(targetCode, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.3,
-                        ease: 'power2.out'
-                    });
-                }
-            });
+        function copyActiveRecipe(btn) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = recipesData[activeRecipeIndex].code;
+            const rawCode = tempDiv.textContent || tempDiv.innerText || '';
+            copyCommand(rawCode, btn);
         }
 
-        // -------------------------------------------------------------
-        // Sandbox Brewing Logic
-        // -------------------------------------------------------------
-        let selectedStatus = 200;
+        // ============================================================
+        // 04. Response Workbench Simulator
+        // ============================================================
+        let currentWorkbenchStatus = 200;
 
-        function setStatusOption(status) {
-            selectedStatus = status;
-
-            const opt200 = document.getElementById('opt-200');
-            const opt418 = document.getElementById('opt-418');
+        function setWorkbenchStatus(status) {
+            currentWorkbenchStatus = status;
+            const btn200 = document.getElementById('btn-scen-200');
+            const btn418 = document.getElementById('btn-scen-418');
 
             if (status === 200) {
-                opt200.classList.add('border-brand-accent-secondary', 'bg-brand-accent-secondary/10', 'text-brand-accent-secondary', 'font-semibold');
-                opt418.classList.remove('border-brand-accent-secondary', 'bg-brand-accent-secondary/10', 'text-brand-accent-secondary', 'font-semibold');
+                btn200.classList.add('active');
+                btn418.classList.remove('active');
             } else {
-                opt418.classList.add('border-brand-accent-secondary', 'bg-brand-accent-secondary/10', 'text-brand-accent-secondary', 'font-semibold');
-                opt200.classList.remove('border-brand-accent-secondary', 'bg-brand-accent-secondary/10', 'text-brand-accent-secondary', 'font-semibold');
+                btn418.classList.add('active');
+                btn200.classList.remove('active');
             }
+            renderWorkbenchOutput();
         }
 
-        function triggerBrewMock() {
-            const logger = document.querySelector('#sandbox-right .flex-grow');
-            logger.innerHTML = ''; // Clean console
-
-            const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0];
-
-            // 1. Initial request line
-            addLogLine(`[${timeStr}] 🍵 Brewing client request: GET /api/wellcome`, 'text-brand-text-muted');
-
-            // Helper to delay log printing for immersive feel
-            let delay = 350;
-
-            setTimeout(() => {
-                addLogLine(`[${timeStr}] 🛡️ Applying global headers & middlewares`, 'text-brand-text-muted');
-            }, delay);
-            delay += 400;
-
-            setTimeout(() => {
-                addLogLine(`[${timeStr}] 🔑 verifyToken: Authorization token verified! ✅`, 'text-[#52b788]');
-            }, delay);
-            delay += 450;
-
-            setTimeout(() => {
-                addLogLine(`[${timeStr}] 🫖 Resolving controller action: WelcomeController.apiWellcome`, 'text-brand-text-muted');
-            }, delay);
-            delay += 500;
-
-            setTimeout(() => {
-                addLogLine(`[${timeStr}] 🌿 Passing response to RestApiHandler.responseApi()`, 'text-brand-text-muted');
-            }, delay);
-            delay += 350;
-
-            if (selectedStatus === 418) {
-                setTimeout(() => {
-                    addLogLine(`[${timeStr}] ⚠️ WARNING: Intercepted status [418]. Triggering teapot handler!`, 'text-[#f6bd60] border-l-2 border-[#f6bd60] pl-2 bg-[#f6bd60]/8');
-                }, delay);
-                delay += 400;
-            }
-
-            setTimeout(() => {
-                const responseCode = selectedStatus === 418 ? 400 : 200;
-                addLogLine(`[${timeStr}] Response brewed successfully! Status: ${responseCode} OK`, 'text-[#52b788] font-bold');
-
-                // Show JSON
-                const jsonText = selectedStatus === 200 ?
-                    `{
-  "data": {
-    "users": 1
-  },
-  "meta": {
-    "saya": 1
-  },
-  "status": {
-    "code": 0,
-    "message_client": "Users fetched successfully"
-  }
-}` :
-                    `{
-  "data": {
-    "users": 1
-  },
-  "meta": {
-    "saya": 1
-  },
-  "status": {
-    "code": 400,
-    "message_client": "[I am a teapot]: Users fetched successfully"
-  }
-}`;
-
-                const jsonEl = document.createElement('pre');
-                jsonEl.className = 'mt-4 text-[#bfaea2] whitespace-pre-wrap opacity-0 translate-y-3 transition-all duration-300';
-                jsonEl.textContent = jsonText;
-                logger.appendChild(jsonEl);
-
-                // Animate JSON display in
-                setTimeout(() => {
-                    jsonEl.classList.remove('opacity-0', 'translate-y-3');
-                    jsonEl.classList.add('opacity-100', 'translate-y-0');
-
-                    // Scroll container to bottom
-                    const body = document.querySelector('#sandbox-right .flex-grow');
-                    gsap.to(body, {
-                        scrollTop: body.scrollHeight,
-                        duration: 0.5
-                    });
-                }, 50);
-
-            }, delay);
+        function triggerWorkbenchInspect() {
+            renderWorkbenchOutput();
         }
 
-        function addLogLine(text, customClasses) {
-            const logger = document.querySelector('#sandbox-right .flex-grow');
-            const line = document.createElement('div');
-            line.className = `log-line leading-relaxed ${customClasses}`;
-            line.textContent = text;
-            logger.appendChild(line);
+        function renderWorkbenchOutput() {
+            const badge = document.getElementById('response-status-badge');
+            const headers = document.getElementById('response-headers');
+            const payload = document.getElementById('response-payload-json');
 
-            // Animate log line entry
-            setTimeout(() => {
-                line.classList.remove('opacity-0', 'translate-y-10');
-                line.classList.add('opacity-100', 'translate-y-0');
-
-                // Scroll logger container
-                const body = document.querySelector('#sandbox-right .flex-grow');
-                body.scrollTop = body.scrollHeight;
-            }, 10);
-        }
-
-        // -------------------------------------------------------------
-        // Newsletter Subscription Action
-        // -------------------------------------------------------------
-        function subscribeNewsletter(event) {
-            event.preventDefault();
-            const form = document.getElementById('newsletter-form');
-            const successCard = document.getElementById('newsletter-success');
-
-            // Slide out & fade out form, then slide in & fade in successCard
-            gsap.timeline()
-                .to(form, {
-                    opacity: 0, y: -10, duration: 0.3, onComplete: () => {
-                        form.classList.add('hidden');
-                        successCard.classList.remove('hidden');
-                        successCard.style.opacity = '0';
-                        successCard.style.transform = 'translateY(10px)';
+            if (currentWorkbenchStatus === 200) {
+                badge.className = 'status-badge badge-200';
+                badge.textContent = '200 OK';
+                headers.innerHTML = 'Content-Type: application/json; charset=utf-8<br/>X-Powered-By: TeapotApps/1.0';
+                payload.textContent = JSON.stringify({
+                    data: {
+                        users: 1,
+                        status: "active"
+                    },
+                    meta: {
+                        timestamp: Date.now(),
+                        page: 1
+                    },
+                    status: {
+                        code: 0,
+                        message_client: "Users fetched successfully!"
                     }
-                })
-                .to(successCard, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.2)' });
+                }, null, 2);
+            } else {
+                badge.className = 'status-badge badge-418';
+                badge.textContent = "418 I'm a Teapot";
+                headers.innerHTML = 'Content-Type: application/json; charset=utf-8<br/>X-Powered-By: TeapotApps/1.0<br/>X-Tea-Steeped: true';
+                payload.textContent = JSON.stringify({
+                    data: null,
+                    meta: {
+                        timestamp: Date.now()
+                    },
+                    status: {
+                        code: 418,
+                        message_client: "[I am a teapot]: Cannot brew coffee, ready for tea!"
+                    }
+                }, null, 2);
+            }
         }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            switchRecipeTab(0);
+            renderWorkbenchOutput();
+        });
     </script>
 </body>
 
