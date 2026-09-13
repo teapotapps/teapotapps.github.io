@@ -302,20 +302,85 @@ export const remove = async (req, res) => {
             <p>Generates a Sequelize model in <code class="inline-code">src/models/&lt;Name&gt;Models.js</code> integrated with <code class="inline-code">DataTypesCustom</code>:</p>
             <pre><code>teapotapps brew model products</code></pre>
 
-            <h2><i class="ri-shield-user-line" style="color:var(--accent-primary)"></i> 4. Brew Middleware</h2>
+            <h2><i class="ri-service-line" style="color:var(--accent-primary)"></i> 4. Brew Service</h2>
+            <p>Generates an ESM business logic service in <code class="inline-code">src/services/&lt;Name&gt;Service.js</code> for 3-tier <code class="inline-code">Controller ➔ Service ➔ Model</code> architectures:</p>
+            <pre><code>teapotapps brew service products</code></pre>
+
+            <h2><i class="ri-shield-user-line" style="color:var(--accent-primary)"></i> 5. Brew Middleware</h2>
             <p>Generates an Express middleware in <code class="inline-code">src/middlewares/&lt;name&gt;.js</code>:</p>
             <pre><code>teapotapps brew middleware checkRole</code></pre>
 
-            <h2><i class="ri-magic-line" style="color:var(--accent-primary)"></i> 5. Brew Full API Module</h2>
-            <p>Creates Controller + Model + wires routes in <code class="inline-code">src/routes/api.js</code> in one shot:</p>
+            <h2><i class="ri-magic-line" style="color:var(--accent-primary)"></i> 6. Brew Full API Module (Active Model CRUD)</h2>
+            <p>Creates Controller + Model + wires routes in <code class="inline-code">src/routes/api.js</code> in one shot with real Sequelize model queries:</p>
             <pre><code># Public routes:
 teapotapps brew api products
 
 # Protected routes (automatically adds verifyToken):
 teapotapps brew api products --auth</code></pre>
 
+            <p><strong>Generated Active Controller Output (via <code class="inline-code">brew api</code>):</strong></p>
+            <pre><code>import { responseApi } from "../libs/RestApiHandler.js";
+import ProductsModels from "../models/ProductsModels.js";
+
+export const getAll = async (req, res) => {
+    try {
+        const data = await ProductsModels.findAll();
+        return responseApi(res, data, null, "Products list retrieved successfully");
+    } catch (error) {
+        return responseApi(res, null, error.message, "Failed to retrieve products list", 500);
+    }
+};
+
+export const getById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await ProductsModels.findByPk(id);
+        if (!data) {
+            return responseApi(res, null, "Data not found", "Products not found", 404);
+        }
+        return responseApi(res, data, null, "Products detail retrieved successfully");
+    } catch (error) {
+        return responseApi(res, null, error.message, "Failed to retrieve products", 500);
+    }
+};
+
+export const create = async (req, res) => {
+    try {
+        const data = await ProductsModels.create(req.body);
+        return responseApi(res, data, null, "Products created successfully", 201);
+    } catch (error) {
+        return responseApi(res, null, error.message, "Failed to create products", 500);
+    }
+};
+
+export const update = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [updated] = await ProductsModels.update(req.body, { where: { id } });
+        if (!updated) {
+            return responseApi(res, null, "Data not found or no changes", "Products not updated", 404);
+        }
+        return responseApi(res, { id, ...req.body }, null, "Products updated successfully");
+    } catch (error) {
+        return responseApi(res, null, error.message, "Failed to update products", 500);
+    }
+};
+
+export const remove = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = await ProductsModels.destroy({ where: { id } });
+        if (!deleted) {
+            return responseApi(res, null, "Data not found", "Products not found", 404);
+        }
+        return responseApi(res, { id }, null, "Products deleted successfully");
+    } catch (error) {
+        return responseApi(res, null, error.message, "Failed to delete products", 500);
+    }
+};</code></pre>
+
             <div class="note-box">
-                <strong>Tip:</strong> All generated files follow clean JavaScript conventions without bloated abstract classes. You can immediately customize fields and logic.
+                <strong>Tip:</strong> All generated files follow clean JavaScript ESM conventions without bloated abstract classes. You can immediately customize fields and logic.
             </div>
         </main>
     </div>
