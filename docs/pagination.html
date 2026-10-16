@@ -9,6 +9,23 @@
     <title>Query Pagination Engine | TeapotApps Documentation</title>
     <meta name="description"
         content="Production-ready database pagination helper for Sequelize models and manual Raw SQL queries with safe parameter escaping in TeapotApps." />
+    <link rel="canonical" href="https://teapotapps.github.io/docs/pagination.html" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://teapotapps.github.io/docs/pagination.html" />
+    <meta property="og:site_name" content="TeapotApps Documentation" />
+    <meta property="og:title" content="Query Pagination Engine | TeapotApps Documentation" />
+    <meta property="og:description"
+        content="Production-ready database pagination helper for Sequelize models and manual Raw SQL queries with safe parameter escaping in TeapotApps." />
+    <meta property="og:image" content="https://teapotapps.github.io/logo-teapotapps.png" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Query Pagination Engine | TeapotApps Documentation" />
+    <meta name="twitter:description"
+        content="Production-ready database pagination helper for Sequelize models and manual Raw SQL queries with safe parameter escaping in TeapotApps." />
+    <meta name="twitter:image" content="https://teapotapps.github.io/logo-teapotapps.png" />
 
     <link rel="icon" type="image/png" href="../logo-teapotapps.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,15 +91,15 @@
         .brand-link {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.75rem;
             text-decoration: none;
             color: var(--text-primary);
             font-family: var(--font-title);
             font-weight: 700;
-            font-size: 1.15rem;
+            font-size: 1.25rem;
         }
 
-        .brand-link img { width: 28px; height: 28px; border-radius: 6px; }
+        .brand-link img { width: 42px; height: 42px; border-radius: 8px; object-fit: contain; }
 
         .back-link {
             display: inline-flex;
@@ -198,6 +215,42 @@
             overflow-x: auto;
             margin: 1rem 0 1.5rem;
             line-height: 1.55;
+            position: relative;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 0.65rem;
+            right: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            background: rgba(35, 30, 27, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-sm);
+            color: #f3f4f6;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .copy-code-btn:hover,
+        .copy-code-btn:focus-visible {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: #ffffff;
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        .copy-code-btn.copied {
+            background: #2e7d32;
+            border-color: #2e7d32;
+            color: #ffffff;
         }
 
         code.inline-code {
@@ -249,7 +302,8 @@
                 <li><a href="validator.html"><i class="ri-shield-check-line"></i> Request Validator</a></li>
                 <li><a href="async-handler.html"><i class="ri-flashlight-line"></i> Async Error Handler</a></li>
                 <li><a href="pagination.html" class="active"><i class="ri-file-list-3-line"></i> Query Pagination</a></li>
-                <li><a href="time-handler.html"><i class="ri-time-line"></i> Time & Timezone</a></li>
+                <li><a href="time-handler.html"><i class="ri-time-line"></i> Time &amp; Timezone</a></li>
+                <li><a href="deployment.html"><i class="ri-cloud-line"></i> Deployment (Vercel &amp; VPS)</a></li>
             </ul>
         </aside>
 
@@ -339,5 +393,6 @@ const result = await paginateQuery(sql, req.query, { replacements: { status: 1 }
             </div>
         </main>
     </div>
+    <script src="../docs.js"></script>
 </body>
 </html>

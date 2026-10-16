@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
+
+    <title>Deployment Guide (Vercel &amp; VPS) | TeapotApps Documentation</title>
+    <meta name="description"
+        content="Complete deployment guide for TeapotApps: Standalone Node.js processes on VPS, Docker, Railway, Render, and Serverless Function hosting on Vercel with includeFiles." />
+    <link rel="canonical" href="https://teapotapps.github.io/docs/deployment.html" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://teapotapps.github.io/docs/deployment.html" />
+    <meta property="og:site_name" content="TeapotApps Documentation" />
+    <meta property="og:title" content="Deployment Guide (Vercel &amp; VPS) | TeapotApps Documentation" />
+    <meta property="og:description"
+        content="Complete deployment guide for TeapotApps: Standalone Node.js processes on VPS, Docker, Railway, Render, and Serverless Function hosting on Vercel with includeFiles." />
+    <meta property="og:image" content="https://teapotapps.github.io/logo-teapotapps.png" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Deployment Guide (Vercel &amp; VPS) | TeapotApps Documentation" />
+    <meta name="twitter:description"
+        content="Complete deployment guide for TeapotApps: Standalone Node.js processes on VPS, Docker, Railway, Render, and Serverless Function hosting on Vercel with includeFiles." />
+    <meta name="twitter:image" content="https://teapotapps.github.io/logo-teapotapps.png" />
+
+    <link rel="icon" type="image/png" href="../logo-teapotapps.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
+
+    <style>
+        :root {
+            --bg-canvas: #fbfaf7;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #f4f0e7;
+            --bg-surface-subtle: #eae5d9;
+            --bg-code: #161311;
+            --border-subtle: #e5dfd3;
+            --border-hover: #cbbfad;
+            --border-active: #c25e1a;
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #78716c;
+            --accent-primary: #c25e1a;
+            --accent-hover: #9a440d;
+            --accent-subtle: #fbf0e8;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-card: 0 2px 8px rgba(28, 25, 23, 0.06), 0 1px 2px rgba(28, 25, 23, 0.04);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(251, 250, 247, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.85rem 1.5rem;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .brand-link img { width: 42px; height: 42px; border-radius: 8px; object-fit: contain; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            background: var(--accent-subtle);
+            transition: var(--transition);
+        }
+        .back-link:hover { background: #f5e4d5; color: var(--accent-hover); }
+
+        .docs-layout {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .sidebar-title {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--bg-surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .content-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .doc-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.45rem;
+            margin: 2rem 0 0.85rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            font-family: var(--font-title);
+            font-size: 1.15rem;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        pre {
+            background: var(--bg-code);
+            color: #f3f4f6;
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.55;
+            position: relative;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 0.65rem;
+            right: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            background: rgba(35, 30, 27, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-sm);
+            color: #f3f4f6;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .copy-code-btn:hover,
+        .copy-code-btn:focus-visible {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: #ffffff;
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        .copy-code-btn.copied {
+            background: #2e7d32;
+            border-color: #2e7d32;
+            color: #ffffff;
+        }
+
+        code.inline-code {
+            background: var(--bg-surface-elevated);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+        }
+
+        .note-box {
+            background: var(--accent-subtle);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+            font-size: 0.92rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.92rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border-subtle);
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: var(--bg-surface-elevated);
+            color: var(--text-primary);
+            font-family: var(--font-title);
+            font-weight: 600;
+        }
+
+        @media (max-width: 860px) {
+            .docs-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .content-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="../index.html" class="brand-link">
+                <img src="../logo-teapotapps.png" alt="TeapotApps logo" />
+                <span>TeapotApps Docs</span>
+            </a>
+            <a href="../index.html" class="back-link">
+                <i class="ri-arrow-left-line"></i>
+                <span>Back to Portal</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-title">Feature Documentation</div>
+            <ul class="sidebar-menu">
+                <li><a href="cli-brew.html"><i class="ri-cup-line"></i> CLI Generator (brew)</a></li>
+                <li><a href="validator.html"><i class="ri-shield-check-line"></i> Request Validator</a></li>
+                <li><a href="async-handler.html"><i class="ri-flashlight-line"></i> Async Error Handler</a></li>
+                <li><a href="pagination.html"><i class="ri-file-list-3-line"></i> Query Pagination</a></li>
+                <li><a href="time-handler.html"><i class="ri-time-line"></i> Time &amp; Timezone</a></li>
+                <li><a href="deployment.html" class="active"><i class="ri-cloud-line"></i> Deployment (Vercel &amp; VPS)</a></li>
+            </ul>
+        </aside>
+
+        <main class="content-card">
+            <h1>Deployment Guide</h1>
+            <p class="doc-lead">
+                Learn how to deploy your TeapotApps backend application across diverse architectures: standalone Node.js servers, Docker containers, PaaS platforms, and serverless environments like Vercel.
+            </p>
+
+            <h2><i class="ri-compass-3-line" style="color:var(--accent-primary)"></i> 1. Architecture Overview</h2>
+            <p>
+                TeapotApps is designed to be deployment-agnostic. It runs seamlessly as a persistent HTTP service or within ephemeral serverless function runtimes:
+            </p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Deployment Mode</th>
+                        <th>Recommended Platforms</th>
+                        <th>Configuration Required</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Standalone Process</strong></td>
+                        <td>VPS (PM2 / Systemd), Docker, Railway, Render, Fly.io</td>
+                        <td>None (Zero-config, native <code class="inline-code">npm start</code>)</td>
+                        <td>APIs with continuous DB pooling, long-lived websockets, and background cron jobs.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Serverless Function</strong></td>
+                        <td>Vercel</td>
+                        <td><code class="inline-code">vercel.json</code> with <code class="inline-code">includeFiles</code></td>
+                        <td>Event-driven REST APIs, JAMstack backends, and serverless microservices.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2><i class="ri-server-line" style="color:var(--accent-primary)"></i> 2. Standalone Server Deployment (VPS &amp; Docker)</h2>
+            <p>
+                In standalone deployments, TeapotApps executes as a persistent Node.js process using native ESM. The full file system remains intact on the server disk.
+            </p>
+
+            <h3>Production Command</h3>
+            <pre><code># Start server in production mode:
+npm start
+
+# Or with explicit environment variables:
+NODE_ENV=production node index.js</code></pre>
+
+            <h3>Using Process Manager (PM2)</h3>
+            <p>For Ubuntu / Debian servers or cloud instances (AWS EC2, DigitalOcean Droplet, Linode), use PM2 to ensure automatic restarts and cluster scaling:</p>
+            <pre><code># Install PM2 globally:
+npm install -g pm2
+
+# Start TeapotApps service:
+pm2 start index.js --name "teapotapps-backend"
+
+# Save process list for system reboot:
+pm2 save
+pm2 startup</code></pre>
+
+            <h3>Docker Deployment</h3>
+            <p>You can package TeapotApps into a lightweight Alpine container:</p>
+            <pre><code>FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 3010
+CMD ["npm", "start"]</code></pre>
+
+            <h2><i class="ri-cloud-line" style="color:var(--accent-primary)"></i> 3. Serverless Deployment on Vercel</h2>
+            <p>
+                Vercel compiles Node.js projects into ephemeral AWS Lambda functions located in isolated container directories (such as <code class="inline-code">/var/task</code>).
+            </p>
+
+            <h3>Scaffolding with CLI</h3>
+            <p>When creating a new project, select the <strong>Vercel Ready</strong> option in the feature checklist:</p>
+            <pre><code>npm create teapotapps@latest my-app</code></pre>
+            <p>The CLI automatically configures an optimal <code class="inline-code">vercel.json</code> file targeting your application.</p>
+
+            <h3>Manual Configuration (`vercel.json`)</h3>
+            <p>If you created a project without the Vercel option or are migrating an existing backend, create <code class="inline-code">vercel.json</code> in your project root:</p>
+            <pre><code>{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "src/views/**",
+          "views/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
+    }
+  ]
+}</code></pre>
+
+            <div class="note-box">
+                <strong>Why `includeFiles` is Critical on Vercel:</strong><br />
+                Vercel traces dependencies at build time using static analysis via <code class="inline-code">@vercel/nft</code>. Because TeapotApps view rendering (<code class="inline-code">render(res, 'ViewName')</code>) loads view components dynamically at runtime, the static tracer cannot predict file usage. Specifying <code class="inline-code">includeFiles: ["src/views/**"]</code> forces Vercel to package your SSR view templates into the serverless bundle, preventing <code class="inline-code">500 Cannot find module</code> errors.
+            </div>
+
+            <h2><i class="ri-database-2-line" style="color:var(--accent-primary)"></i> 4. Database Connection Pooling in Serverless</h2>
+            <p>
+                In serverless environments, each incoming request may trigger a new Lambda container. Direct database connections can quickly saturate connection limits (such as PostgreSQL <code class="inline-code">max_connections</code>).
+            </p>
+            <p>
+                For serverless deployment on Vercel with databases, use managed cloud database providers featuring built-in connection poolers:
+            </p>
+            <ul style="margin: 0 0 1.5rem 1.5rem; color: var(--text-secondary);">
+                <li><strong>Supabase:</strong> Use Transaction mode (port 6543) via PgBouncer.</li>
+                <li><strong>Neon PostgreSQL:</strong> Use the pooled connection string (<code class="inline-code">-pooler</code> subdomain).</li>
+                <li><strong>PlanetScale:</strong> Serverless MySQL architecture with automated connection offloading.</li>
+            </ul>
+
+            <h2><i class="ri-lock-line" style="color:var(--accent-primary)"></i> 5. Environment Variables</h2>
+            <p>Ensure that all required variables are configured in your hosting platform (Vercel Project Settings or Server <code class="inline-code">.env</code>):</p>
+            <pre><code>APP_NAME=TeapotApps
+APP_PORT=3010
+APP_DEBUG=false
+APP_KEY=your_random_32_character_secret_key
+APP_ACCESS_TOKEN_SECRET=your_jwt_signing_token_secret
+APP_DB_CONNECTION=postgres
+APP_DB_HOST=aws-0-us-west-1.pooler.supabase.com
+APP_DB_PORT=6543
+APP_DB_DATABASE=postgres
+APP_DB_USERNAME=postgres.your_project_ref
+APP_DB_PASSWORD=your_secure_db_password</code></pre>
+
+            <div class="note-box">
+                <strong>Production Tip:</strong> Always set <code class="inline-code">APP_DEBUG=false</code> in production to suppress detailed internal stack traces from client JSON responses.
+            </div>
+        </main>
+    </div>
+    <script src="../docs.js"></script>
+</body>
+</html>

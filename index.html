@@ -36,6 +36,26 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="./logo-teapotapps.png" />
 
+    <!-- JSON-LD Structured Data Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "TeapotApps",
+      "operatingSystem": "Cross-platform",
+      "applicationCategory": "DeveloperApplication",
+      "description": "A lightweight Node.js backend framework with native ESM support, clean modular architecture, and cozy 418 Teapot handling.",
+      "url": "https://teapotapps.github.io/",
+      "image": "https://teapotapps.github.io/logo-teapotapps.png",
+      "license": "https://opensource.org/licenses/MIT",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -183,7 +203,7 @@
         }
 
         .brand-logo-img {
-            height: 30px;
+            height: 42px;
             width: auto;
             object-fit: contain;
         }
@@ -619,7 +639,17 @@
         }
 
         .arch-item-title i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-subtle);
+            border: 1px solid rgba(194, 94, 26, 0.2);
+            border-radius: var(--radius-sm);
             color: var(--accent-primary);
+            font-size: 1.15rem;
+            flex-shrink: 0;
         }
 
         .arch-item-text {
@@ -931,11 +961,20 @@
         }
 
         .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: var(--accent-subtle);
+            border: 1px solid rgba(194, 94, 26, 0.2);
+            border-radius: var(--radius-sm);
             font-family: var(--font-title);
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--accent-primary);
             line-height: 1;
+            margin-bottom: 0.5rem;
         }
 
         .step-title {
@@ -1042,6 +1081,46 @@
                 text-align: left;
             }
         }
+
+        /* Floating Code Copy Button */
+        pre {
+            position: relative;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 0.65rem;
+            right: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            background: rgba(35, 30, 27, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-sm);
+            color: #f3f4f6;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .copy-code-btn:hover,
+        .copy-code-btn:focus-visible {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: #ffffff;
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        .copy-code-btn.copied {
+            background: #2e7d32;
+            border-color: #2e7d32;
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -1063,6 +1142,7 @@
                 <a href="#recipes" class="nav-link">Code Recipes</a>
                 <a href="#workbench" class="nav-link">API Workbench</a>
                 <a href="#docs" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Feature Docs</a>
+                <a href="./docs/deployment.html" class="nav-link">Deployment</a>
             </nav>
 
             <!-- Header Actions -->
@@ -1096,6 +1176,7 @@
                 <a href="#recipes" class="mobile-drawer-link" onclick="closeMobileMenu()">Code Recipes</a>
                 <a href="#workbench" class="mobile-drawer-link" onclick="closeMobileMenu()">API Workbench</a>
                 <a href="#docs" class="mobile-drawer-link" onclick="closeMobileMenu()">Feature Docs</a>
+                <a href="./docs/deployment.html" class="mobile-drawer-link" onclick="closeMobileMenu()">Deployment</a>
             </nav>
         </div>
     </header>
@@ -1466,6 +1547,13 @@
                         <p class="step-desc">Timezone-aware datetime formatting and epoch utilities with in-file default configuration.</p>
                         <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
                     </a>
+
+                    <a href="./docs/deployment.html" class="step-card" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
+                        <div class="step-num"><i class="ri-cloud-line" style="color: var(--accent-primary);"></i></div>
+                        <h3 class="step-title">Deployment (Vercel &amp; VPS)</h3>
+                        <p class="step-desc">Architecture guides for deploying Standalone Node.js on VPS/Docker and Serverless Functions on Vercel with includeFiles.</p>
+                        <span style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; margin-top: 0.75rem;">Read Guide <i class="ri-arrow-right-line"></i></span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -1495,6 +1583,7 @@
                         <li><a href="#architecture">Monorepo Architecture</a></li>
                         <li><a href="#recipes">Code Recipes</a></li>
                         <li><a href="#workbench">Response Workbench</a></li>
+                        <li><a href="./docs/deployment.html">Deployment Guide</a></li>
                     </ul>
                 </div>
 
@@ -1756,6 +1845,7 @@
             renderWorkbenchOutput();
         });
     </script>
+    <script src="./docs.js"></script>
 </body>
 
 </html>
